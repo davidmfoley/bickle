@@ -4,7 +4,7 @@ namespace Bickle
 {
     public interface ITestResultListener
     {
-        void Failed(It it, Exception exception);
-        void Success(It it);
+        void Failed(Example example, Exception exception);
+        void Success(Example example);
     }
 }

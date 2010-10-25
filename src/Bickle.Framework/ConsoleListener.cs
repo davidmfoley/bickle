@@ -9,27 +9,27 @@ namespace Bickle
         private int _successCount;
         private int _totalCount;
 
-        public void Running(It it)
+        public void Running(Example example)
         {
             _totalCount++;
         }
 
-        public void Failed(It it, Exception exception)
+        public void Failed(Example example, Exception exception)
         {
             Console.Write("F");
-            _failures.Add(CreateFailureMessage(it, exception));
+            _failures.Add(CreateFailureMessage(example, exception));
 
         }
 
-        private string CreateFailureMessage(It it, Exception exception)
+        private string CreateFailureMessage(Example example, Exception exception)
         {
             const string fmt = 
                 @"{0}) Failed: {1}
 {2}";
-            return string.Format(fmt, _failures.Count + 1, it.FullName, exception);
+            return string.Format(fmt, _failures.Count + 1, example.FullName, exception);
         }
 
-        public void Success(It it)
+        public void Success(Example example)
         {
             Console.Write(".");
             _successCount++;

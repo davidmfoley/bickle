@@ -26,8 +26,8 @@ namespace Bickle.Tests
         public void Should_have_nested_it()
         {
             NestedDescribe.ItWasCalled = false;
-            Describes[0].Describes[0].Its.Length.ShouldBe(1);
-            Describes[0].Describes[0].Its[0].Action();
+            Describes[0].Describes[0].Examples.Length.ShouldBe(1);
+            Describes[0].Describes[0].Examples[0].Action();
             NestedDescribe.ItWasCalled.ShouldBe(true);
         }
 

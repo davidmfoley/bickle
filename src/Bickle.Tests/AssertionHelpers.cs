@@ -8,5 +8,10 @@ namespace Bickle.Tests
         {
             Assert.AreEqual(expected, actual);
         }
+
+        public static void ShouldStartWith(this string actual, string expected)
+        {
+            Assert.That(actual.StartsWith(expected), "Expected:\r\n'" + actual+ "'\r\nto startwith\r\n'" + expected+"'" );
+        }
     }
 }

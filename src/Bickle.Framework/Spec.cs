@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Bickle;
 
 namespace Bickle
@@ -21,13 +22,20 @@ namespace Bickle
         {
             CurrentDescribe().Before = spec;
         }
+        
         protected void After(Action spec)
         {
             CurrentDescribe().After = spec;
         }
+
         protected void It(string area, Action spec)
         {
-            CurrentDescribe().AddIt(area, spec);
+            CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe()));
+        }
+
+        protected void It(string area, Expression<Func<bool>> spec)
+        {
+            CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe()));
         }
 
         private Describe CurrentDescribe()

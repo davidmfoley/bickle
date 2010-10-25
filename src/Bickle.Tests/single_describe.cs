@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bickle;
 using NUnit.Framework;
 
 namespace Bickle.Tests
@@ -16,7 +15,7 @@ namespace Bickle.Tests
             Describe("Foo", () =>
             {
                 Before(() => BeforeWasCalled = true);
-                It("should bar", () => ItWasCalled = true);
+                It("should bar", () => { ItWasCalled = true; });
                 After(() => AfterWasCalled = true);
             });
         }
@@ -35,10 +34,10 @@ namespace Bickle.Tests
         [Test]
         public void has_a_single_it()
         {
-            Describes[0].Its.Length.ShouldBe(1);
-            Describes[0].Its[0].Name.ShouldBe("should bar");
+            Describes[0].Examples.Length.ShouldBe(1);
+            Describes[0].Examples[0].Name.ShouldBe("should bar");
             SingleDescribe.ItWasCalled = false;
-            Describes[0].Its[0].Action();
+            Describes[0].Examples[0].Action();
             SingleDescribe.ItWasCalled.ShouldBe(true);
         }
 
@@ -59,49 +58,17 @@ namespace Bickle.Tests
         }   
     }
 
-    [TestFixture]
-    public class Executing_an_it
-    {
-        private FakeResultListener Listener;
-
-        [SetUp]
-        public void SetUpContext()
-        {
-            Listener = new FakeResultListener();
-        }
-
-        [Test]
-        public void notifies_listener_on_success()
-        {
-            var it = new It("Bar", () => Assert.IsTrue(true), new Describe("Foo", null));
-
-            it.Execute(Listener);
-
-            Listener.Calls[0].ShouldBe("Success - Foo, Bar");
-        }
-
-        [Test]
-        public void notifies_listener_on_failure()
-        {
-            var it = new It("Bar", () => Assert.IsTrue(false), new Describe("Foo", null));
-
-            it.Execute(Listener);
-
-            Listener.Calls[0].ShouldBe("Failed - Foo, Bar - AssertionException");
-        }
-    }
-
     public class FakeResultListener : ITestResultListener
     {
         public List<string> Calls = new List<string>();
-        public void Failed(It it, Exception exception)
+        public void Failed(Example example, Exception exception)
         {
-            Calls.Add("Failed - " + it.FullName + " - " + exception.GetType().Name);
+            Calls.Add("Failed - " + example.FullName + " - " + exception.GetType().Name);
         }
 
-        public void Success(It it)
+        public void Success(Example example)
         {
-            Calls.Add("Success - " + it.FullName);
+            Calls.Add("Success - " + example.FullName);
         }
     }
 

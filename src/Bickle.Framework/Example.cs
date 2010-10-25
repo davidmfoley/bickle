@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Bickle
 {
-    public class It
+    public class Example
     {
         private readonly Action _action;
         private readonly Describe _parent;
@@ -13,11 +14,23 @@ namespace Bickle
             return _parent.FullName + ", " + Name;
         }}
 
-        public It(string name, Action action, Describe parent)
+        public Example(string name, Action action, Describe parent)
         {
             Name = name;
             _action = action;
             _parent = parent;
+        }
+
+        public Example(string name, Expression<Func<bool>> spec, Describe parent)
+        {
+            Name = name;
+            _action = BuildAction(spec);
+            _parent = parent;
+        }
+
+        private Action BuildAction(Expression<Func<bool>> spec)
+        {
+            return null;
         }
 
         public void Action()

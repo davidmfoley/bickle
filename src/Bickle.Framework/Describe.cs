@@ -7,10 +7,10 @@ namespace Bickle
     public class Describe
     {
         private readonly Describe _parent;
-        private List<It> _its = new List<It>();
+        private List<Example> _its = new List<Example>();
         public string Name { get; set; }
 
-        public It[] Its
+        public Example[] Examples
         {
             get { return _its.ToArray(); }
         }
@@ -35,9 +35,9 @@ namespace Bickle
             Name = name;
         }
 
-        public void AddIt(string name, Action action)
+        public void AddIt(Example example)
         {
-            _its.Add(new It(name, action, this));
+            _its.Add(example);
         }
 
         public void AddDescribe(Describe describe)
@@ -47,7 +47,7 @@ namespace Bickle
 
         public void Execute()
         {
-            foreach (var it in Its)
+            foreach (var it in Examples)
             {
                 foreach (var before in GetBefores())
                 {

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A16D2C8C-B99B-45D4-9127-176BE9F99F47}</ProjectGuid>
+    <ProjectGuid>{001E1E17-81B1-43D7-A95D-D76D0BEBDE51}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bickle</RootNamespace>
-    <AssemblyName>Bickle.Framework</AssemblyName>
+    <RootNamespace>Bickle.Examples</RootNamespace>
+    <AssemblyName>Bickle.Examples</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,13 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleListener.cs" />
-    <Compile Include="ITestResultListener.cs" />
-    <Compile Include="Spec.cs" />
-    <Compile Include="Describe.cs" />
-    <Compile Include="Example.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecRunner.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bickle.Framework\Bickle.Framework.csproj">
+      <Project>{A16D2C8C-B99B-45D4-9127-176BE9F99F47}</Project>
+      <Name>Bickle.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
