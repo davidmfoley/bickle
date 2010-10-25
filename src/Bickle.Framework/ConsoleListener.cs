@@ -83,7 +83,6 @@ namespace Bickle
             _pendings.Add((_pendings.Count + 1).ToString() + ") Pending: " + example.FullName);
         }
 
-
         private string CreateFailureMessage(Example example, Exception exception)
         {
             const string fmt = 
@@ -101,7 +100,7 @@ namespace Bickle
         }      
 
         public void Finished()
-        {           
+        {               
             WriteLine("");
 
             WriteSpecInfos("Failures:", _failures, MessageType.Failure);

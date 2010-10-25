@@ -28,6 +28,13 @@ namespace Bickle.Examples
                         Specify(() => 101 > 100);
                         Specify(() => 99 <= 100);
 
+                        Describe("Expect() is a synonym for Specify()", () =>
+                        {
+                            Expect(() => Foo == (99 + 5));
+                            Expect(() => 101 > 100);
+                            Expect(() => 99 <= 100);
+                        });
+
                         Describe("Failures are translated", () =>
                         {
                             Specify(() => Foo > 100);
@@ -35,6 +42,8 @@ namespace Bickle.Examples
                             Specify(()=>5 < 6);
                         });
                     });
+
+                    
 
                     It("Can handle pending steps", Pending);
 
