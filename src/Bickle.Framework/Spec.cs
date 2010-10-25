@@ -62,7 +62,7 @@ namespace RedundantSpec
             return _describes.ToArray();
         }
 
-        public void Execute()
+        public void Execute(ITestResultListener listener)
         {
             foreach (var describe in _describes)
             {

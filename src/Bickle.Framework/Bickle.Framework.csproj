@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleListener.cs" />
+    <Compile Include="ITestResultListener.cs" />
     <Compile Include="Spec.cs" />
     <Compile Include="Describe.cs" />
     <Compile Include="It.cs" />

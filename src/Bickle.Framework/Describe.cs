@@ -24,6 +24,11 @@ namespace RedundantSpec
         public Action Before = () => { };
         public Action After = () => { };
         private readonly List<Describe> _describes = new List<Describe>();
+        
+        public string FullName
+        {
+            get { return (_parent != null ? _parent.FullName + ", " : "") + Name; }
+        }
 
         public Describe(string name, Describe parent)
         {
@@ -33,7 +38,7 @@ namespace RedundantSpec
 
         public void AddIt(string name, Action action)
         {
-            _its.Add(new It(name, action));
+            _its.Add(new It(name, action, this));
         }
 
         public void AddDescribe(Describe describe)

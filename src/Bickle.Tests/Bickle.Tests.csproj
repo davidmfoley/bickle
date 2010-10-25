@@ -49,9 +49,9 @@
     <Compile Include="SpecFor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RedundantSpec\RedundantSpec.csproj">
+    <ProjectReference Include="..\Bickle.Framework\Bickle.Framework.csproj">
       <Project>{A16D2C8C-B99B-45D4-9127-176BE9F99F47}</Project>
-      <Name>RedundantSpec</Name>
+      <Name>Bickle.Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

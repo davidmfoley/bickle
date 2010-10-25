@@ -35,7 +35,7 @@ namespace RedundantSpec.Tests
         public void Should_execute_in_correct_order()
         {
             var spec = new NestedDescribe();
-            new SpecRunner().Run(spec);
+            spec.Execute(new FakeResultListener());
             var expected = new[] { "OuterBefore", "InnerBefore", "It", "InnerAfter", "OuterAfter" };
             Assert.That(spec.Events, Is.EquivalentTo(expected));
         }
