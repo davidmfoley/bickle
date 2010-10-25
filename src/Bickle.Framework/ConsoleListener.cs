@@ -98,18 +98,15 @@ namespace Bickle
                 return "Failed: " + exception.Message;
 
             return exception.ToString();
-        }
-
-       
+        }      
 
         public void Finished()
-        {
-           
+        {           
             WriteLine("");
 
             WriteSpecInfos("Failures:", _failures, MessageType.Failure);
             WriteSpecInfos("Pending:", _pendings, MessageType.Pending);
-            WriteSpecInfos("Ignored:", _ignored, MessageType.Pending);
+            WriteSpecInfos("Ignored:", _ignored, MessageType.Ignored);
 
             WriteLine("");
 
@@ -118,7 +115,6 @@ namespace Bickle
             WriteCount("failure", "failures", _failures.Count, MessageType.Failure);
             WriteCount("pending", "pending", _pendings.Count, MessageType.Pending);
             WriteCount("ignored", "ignored", _ignored.Count, MessageType.Ignored);
-
 
             WriteLine("");
         }
