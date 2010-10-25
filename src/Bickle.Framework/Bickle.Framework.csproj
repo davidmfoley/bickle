@@ -42,7 +42,7 @@
     <Compile Include="ConsoleListener.cs" />
     <Compile Include="ITestResultListener.cs" />
     <Compile Include="Spec.cs" />
-    <Compile Include="Describe.cs" />
+    <Compile Include="ExampleContainer.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecRunner.cs" />

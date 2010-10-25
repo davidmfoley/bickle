@@ -11,23 +11,23 @@ namespace Bickle.Tests
         [Test]
         public void Should_have_one_describe()
         {
-            Describes.Length.ShouldBe(1);
-            Describes[0].Name.ShouldBe("Foo");
+            ExampleContainers.Length.ShouldBe(1);
+            ExampleContainers[0].Name.ShouldBe("Foo");
         }
 
         [Test]
         public void Should_have_nested_describe()
         {
-            Describes[0].Describes.Length.ShouldBe(1);
-            Describes[0].Describes[0].Name.ShouldBe("Bar");
+            ExampleContainers[0].ExampleContainers.Length.ShouldBe(1);
+            ExampleContainers[0].ExampleContainers[0].Name.ShouldBe("Bar");
         }
 
         [Test]
         public void Should_have_nested_it()
         {
             NestedDescribe.ItWasCalled = false;
-            Describes[0].Describes[0].Examples.Length.ShouldBe(1);
-            Describes[0].Describes[0].Examples[0].Action();
+            ExampleContainers[0].ExampleContainers[0].Examples.Length.ShouldBe(1);
+            ExampleContainers[0].ExampleContainers[0].Examples[0].Action();
             NestedDescribe.ItWasCalled.ShouldBe(true);
         }
 

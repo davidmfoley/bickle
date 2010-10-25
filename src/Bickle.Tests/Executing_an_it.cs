@@ -16,7 +16,7 @@ namespace Bickle.Tests
         [Test]
         public void notifies_listener_on_success()
         {
-            var it = new Example("Bar", () => Assert.IsTrue(true), new Describe("Foo", null));
+            var it = new Example("Bar", () => Assert.IsTrue(true), new ExampleContainer("Foo", null));
 
             it.Execute(Listener);
 
@@ -26,7 +26,7 @@ namespace Bickle.Tests
         [Test]
         public void notifies_listener_on_failure()
         {
-            var it = new Example("Bar", () => Assert.IsTrue(false), new Describe("Foo", null));
+            var it = new Example("Bar", () => Assert.IsTrue(false), new ExampleContainer("Foo", null));
 
             it.Execute(Listener);
 
@@ -36,7 +36,7 @@ namespace Bickle.Tests
         [Test]
         public void handles_predicate_expression()
         {
-            var it = new Example("Bar", () => false, new Describe("Foo", null));
+            var it = new Example("Bar", () => false, new ExampleContainer("Foo", null));
 
             it.Execute(Listener);
 

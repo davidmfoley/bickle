@@ -27,17 +27,17 @@ namespace Bickle.Tests
         [Test]
         public void has_a_single_describe()
         {           
-            Describes.Length.ShouldBe(1);
-            Describes[0].Name.ShouldBe("Foo");
+            ExampleContainers.Length.ShouldBe(1);
+            ExampleContainers[0].Name.ShouldBe("Foo");
         }
 
         [Test]
         public void has_a_single_it()
         {
-            Describes[0].Examples.Length.ShouldBe(1);
-            Describes[0].Examples[0].Name.ShouldBe("should bar");
+            ExampleContainers[0].Examples.Length.ShouldBe(1);
+            ExampleContainers[0].Examples[0].Name.ShouldBe("should bar");
             SingleDescribe.ItWasCalled = false;
-            Describes[0].Examples[0].Action();
+            ExampleContainers[0].Examples[0].Action();
             SingleDescribe.ItWasCalled.ShouldBe(true);
         }
 
@@ -45,7 +45,7 @@ namespace Bickle.Tests
         public void has_a_before()
         {
             SingleDescribe.BeforeWasCalled = false;
-            Describes[0].Before();
+            ExampleContainers[0].Before();
             SingleDescribe.BeforeWasCalled.ShouldBe(true);
         }
 
@@ -53,7 +53,7 @@ namespace Bickle.Tests
         public void has_an_after()
         {
             SingleDescribe.AfterWasCalled = false;
-            Describes[0].After();
+            ExampleContainers[0].After();
             SingleDescribe.AfterWasCalled.ShouldBe(true);
         }   
     }

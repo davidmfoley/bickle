@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Bickle
 {
-    public class Describe
+    public class ExampleContainer
     {
-        private readonly Describe _parent;
+        private readonly ExampleContainer _parent;
         private List<Example> _its = new List<Example>();
         public string Name { get; set; }
 
@@ -15,21 +15,21 @@ namespace Bickle
             get { return _its.ToArray(); }
         }
 
-        public Describe[] Describes
+        public ExampleContainer[] ExampleContainers
         {
             get { return _describes.ToArray(); }
         }
 
         public Action Before = () => { };
         public Action After = () => { };
-        private readonly List<Describe> _describes = new List<Describe>();
+        private readonly List<ExampleContainer> _describes = new List<ExampleContainer>();
         
         public string FullName
         {
             get { return (_parent != null ? _parent.FullName + ", " : "") + Name; }
         }
 
-        public Describe(string name, Describe parent)
+        public ExampleContainer(string name, ExampleContainer parent)
         {
             _parent = parent;
             Name = name;
@@ -40,9 +40,9 @@ namespace Bickle
             _its.Add(example);
         }
 
-        public void AddDescribe(Describe describe)
+        public void AddDescribe(ExampleContainer exampleContainer)
         {
-            _describes.Add(describe);
+            _describes.Add(exampleContainer);
         }
 
         public void Execute()
@@ -62,7 +62,7 @@ namespace Bickle
                 }
             }
 
-            foreach (var describe in Describes)
+            foreach (var describe in ExampleContainers)
             {
                 describe.Execute();
             }
