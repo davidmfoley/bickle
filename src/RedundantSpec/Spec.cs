@@ -8,11 +8,11 @@ namespace RedundantSpec
         private List<Describe> _describes = new List<Describe>();
         private Action<string, Action> _itHandler = (x, y) => { };
         private Stack<Describe> _describeStack = new Stack<Describe>();
+               
         protected void Describe(string area, Action spec)
         {
-            var describe = new Describe(area);
+            var describe = new Describe(area, CurrentDescribe());
             RunDescribe(spec, describe);
-
            
         }
 
@@ -31,7 +31,7 @@ namespace RedundantSpec
 
         private Describe CurrentDescribe()
         {
-            return _describeStack.Peek();
+            return _describeStack.Count > 0 ? _describeStack.Peek() : null;
         }
 
         private void RunDescribe(Action spec, Describe describe)
@@ -60,6 +60,14 @@ namespace RedundantSpec
         public Describe[] GetSpecs()
         {
             return _describes.ToArray();
+        }
+
+        public void Execute()
+        {
+            foreach (var describe in _describes)
+            {
+                describe.Execute();
+            }
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RedundantSpec
 {
     public class Describe
     {
+        private readonly Describe _parent;
         private List<It> _its = new List<It>();
         public string Name { get; set; }
 
@@ -20,10 +23,11 @@ namespace RedundantSpec
 
         public Action Before = () => { };
         public Action After = () => { };
-        private List<Describe> _describes =new List<Describe>();
+        private readonly List<Describe> _describes = new List<Describe>();
 
-        public Describe(string name)
+        public Describe(string name, Describe parent)
         {
+            _parent = parent;
             Name = name;
         }
 
@@ -35,6 +39,45 @@ namespace RedundantSpec
         public void AddDescribe(Describe describe)
         {
             _describes.Add(describe);
+        }
+
+        public void Execute()
+        {
+            foreach (var it in Its)
+            {
+                foreach (var before in GetBefores())
+                {
+                    before();
+                }
+
+                it.Action();
+
+                foreach (var after in GetAfters())
+                {
+                    after();
+                }
+            }
+
+            foreach (var describe in Describes)
+            {
+                describe.Execute();
+            }
+        }
+
+        private IEnumerable<Action> GetBefores()
+        {
+            if (_parent == null)
+                return new[] { Before };
+
+           return  new[] {Before}.Union(_parent.GetBefores());
+        }
+
+        private IEnumerable<Action> GetAfters()
+        {
+            if (_parent == null)
+                return new[] {After};
+
+            return (new[] { After }.Union(_parent.GetAfters())).Reverse();
         }
     }
 }
