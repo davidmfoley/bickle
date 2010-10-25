@@ -4,7 +4,61 @@ using System.Linq;
 
 namespace Bickle
 {
-    public class ExampleContainer
+
+    public class InactiveExampleContainer : ExampleContainer
+    {
+        public InactiveExampleContainer(string name, ExampleContainer parent) : base(name, parent)
+        {
+        }
+
+        public override void Execute(ITestResultListener listener)
+        {
+            ExecuteIgnored(this, listener);
+        }
+
+        private void ExecuteIgnored(ExampleContainer container, ITestResultListener listener)
+        {
+            foreach (var exampleContainer in container.ExampleContainers)
+            {
+                ExecuteIgnored(exampleContainer, listener);
+            }
+
+            foreach (var example in container.Examples)
+            {
+                listener.Ignored(example);
+            }
+        }
+    }
+    public class ActiveExampleContainer : ExampleContainer
+    {
+        public ActiveExampleContainer(string name, ExampleContainer parent) : base(name, parent)
+        {
+        }
+
+        public override void Execute(ITestResultListener listener)
+        {
+            foreach (var it in Examples)
+            {
+                foreach (var before in GetBefores())
+                {
+                    before();
+                }
+
+                it.Execute(listener);
+
+                foreach (var after in GetAfters())
+                {
+                    after();
+                }
+            }
+
+            foreach (var describe in ExampleContainers)
+            {
+                describe.Execute(listener);
+            }
+        }
+    }
+    public abstract class ExampleContainer
     {
         private readonly ExampleContainer _parent;
         private List<Example> _its = new List<Example>();
@@ -45,30 +99,9 @@ namespace Bickle
             _describes.Add(exampleContainer);
         }
 
-        public void Execute(ITestResultListener listener)
-        {
-            foreach (var it in Examples)
-            {
-                foreach (var before in GetBefores())
-                {
-                    before();
-                }
+        public abstract void Execute(ITestResultListener listener);
 
-                it.Execute(listener);
-
-                foreach (var after in GetAfters())
-                {
-                    after();
-                }
-            }
-
-            foreach (var describe in ExampleContainers)
-            {
-                describe.Execute(listener);
-            }
-        }
-
-        private IEnumerable<Action> GetBefores()
+        protected IEnumerable<Action> GetBefores()
         {
             if (_parent == null)
                 return new[] { Before };
@@ -76,7 +109,7 @@ namespace Bickle
            return  new[] {Before}.Union(_parent.GetBefores());
         }
 
-        private IEnumerable<Action> GetAfters()
+        protected IEnumerable<Action> GetAfters()
         {
             if (_parent == null)
                 return new[] {After};

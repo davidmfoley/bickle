@@ -37,6 +37,20 @@ namespace Bickle.Examples
                     });
 
                     It("Can handle pending steps", Pending);
+
+                    Describe("An Ignore block ignores its contents", () =>
+                    {
+                        Ignore("(optional) reason for ignoring goes here", () =>
+                        {
+                            Describe("Ignore can contain describes", () =>
+                            {
+                                It("will not run any contents of the ignore", () => false);
+                                Expect(()=> 0==1);
+                            });
+
+                            It("can also contain its", ()=>false);
+                        });
+                    });
                 });
             });
         }

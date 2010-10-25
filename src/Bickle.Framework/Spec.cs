@@ -18,11 +18,20 @@ namespace Bickle
             throw new PendingException();
         }
 
+        protected void Ignore(string area, Action spec)
+        {
+            var describe = new InactiveExampleContainer(area, CurrentDescribe());
+            RunDescribe(spec, describe);           
+        }
+
+        protected void Ignore(Action spec)
+        {
+            Ignore("Ignored", spec);
+        }
         protected void Describe(string area, Action spec)
         {
-            var describe = new ExampleContainer(area, CurrentDescribe());
-            RunDescribe(spec, describe);
-           
+            var describe = new ActiveExampleContainer(area, CurrentDescribe());
+            RunDescribe(spec, describe);           
         }
 
         protected void Before(Action spec)
@@ -45,10 +54,17 @@ namespace Bickle
             CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe()));
         }
 
+        protected void Expect(Expression<Func<bool>> spec)
+        {
+            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe()));
+        }
+
         protected void Specify(Expression<Func<bool>> spec)
         {
             CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe()));
         }
+
+        
 
         private Action Wrap(Expression<Func<bool>> spec)
         {

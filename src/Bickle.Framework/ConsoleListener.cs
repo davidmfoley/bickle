@@ -52,6 +52,7 @@ namespace Bickle
         private int _successCount;
         private int _totalCount;
         private List<string> _pendings = new List<string>();
+        private List<string> _ignored = new List<string>();
 
 
         public void Success(Example example)
@@ -65,6 +66,7 @@ namespace Bickle
         {
             _totalCount++;
             Write(MessageType.Ignored, "I");
+            _ignored.Add((_ignored.Count + 1).ToString() + ") Ignored: " + example.FullName);
         }
 
         public void Failed(Example example, Exception exception)
@@ -107,6 +109,7 @@ namespace Bickle
 
             WriteSpecInfos("Failures:", _failures, MessageType.Failure);
             WriteSpecInfos("Pending:", _pendings, MessageType.Pending);
+            WriteSpecInfos("Ignored:", _ignored, MessageType.Pending);
 
             WriteLine("");
 
@@ -114,6 +117,7 @@ namespace Bickle
 
             WriteCount("failure", "failures", _failures.Count, MessageType.Failure);
             WriteCount("pending", "pending", _pendings.Count, MessageType.Pending);
+            WriteCount("ignored", "ignored", _ignored.Count, MessageType.Ignored);
 
 
             WriteLine("");

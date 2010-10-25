@@ -8,5 +8,6 @@ namespace Bickle
         void Success(Example example);
         void Finished();
         void Pending(Example example);
+        void Ignored(Example example);
     }
 }

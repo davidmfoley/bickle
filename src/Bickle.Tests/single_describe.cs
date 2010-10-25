@@ -85,7 +85,11 @@ namespace Bickle.Tests
         {
              Calls.Add("Pending - " + example.FullName);
         }
-        
+
+        public void Ignored(Example example)
+        {
+            Calls.Add("Ignored - " + example.FullName);
+        }
     }
 
    
