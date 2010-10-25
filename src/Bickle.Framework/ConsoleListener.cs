@@ -37,17 +37,25 @@ namespace Bickle
 
         public void Finished()
         {
+            Console.WriteLine();
+
             var failureCount = _failures.Count;
             var message = _totalCount + " examples";
             if (failureCount == 1)
             {
-                message += "1 failure";
+                message += ", 1 failure";
             }
             else
             {
-                message += failureCount.ToString() + " failures";
+                message += ", " + failureCount.ToString() + " failures";
             }
             Console.WriteLine(message);
+
+            foreach (var failure in _failures)
+            {
+                Console.WriteLine();
+                Console.WriteLine(failure);
+            }
         }
     }
 }

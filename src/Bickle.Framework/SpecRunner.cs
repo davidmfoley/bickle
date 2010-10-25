@@ -14,6 +14,8 @@ namespace Bickle
 
             foreach (var type in GetSpecTypes(assemblyLocation))
                 ExecuteSpecs(type, listener);
+
+            listener.Finished();
         }
 
         private void ExecuteSpecs(Type type, ConsoleListener listener)

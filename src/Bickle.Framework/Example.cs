@@ -42,14 +42,13 @@ namespace Bickle
             };
         }
 
-
         public void Action()
         {
             _action();
         }
 
         public void Execute(ITestResultListener listener)
-        {
+        {           
             try
             {
                 _action();

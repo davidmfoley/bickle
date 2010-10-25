@@ -16,6 +16,8 @@ namespace Bickle
 
             var assemblyLocation = args[0];
 
+            new SpecRunner().Run(assemblyLocation);
+
         }
 
         private static void PrintUsage()

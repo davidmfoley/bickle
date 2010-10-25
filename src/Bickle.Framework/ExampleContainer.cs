@@ -45,7 +45,7 @@ namespace Bickle
             _describes.Add(exampleContainer);
         }
 
-        public void Execute()
+        public void Execute(ITestResultListener listener)
         {
             foreach (var it in Examples)
             {
@@ -54,7 +54,7 @@ namespace Bickle
                     before();
                 }
 
-                it.Action();
+                it.Execute(listener);
 
                 foreach (var after in GetAfters())
                 {
@@ -64,7 +64,7 @@ namespace Bickle
 
             foreach (var describe in ExampleContainers)
             {
-                describe.Execute();
+                describe.Execute(listener);
             }
         }
 

@@ -61,6 +61,11 @@ namespace Bickle.Tests
     public class FakeResultListener : ITestResultListener
     {
         public List<string> Calls = new List<string>();
+        public void Running(Example example)
+        {
+            
+        }
+
         public void Failed(Example example, Exception exception)
         {
             Calls.Add("Failed - " + example.FullName + " - " + exception.GetType().Name);
@@ -69,6 +74,11 @@ namespace Bickle.Tests
         public void Success(Example example)
         {
             Calls.Add("Success - " + example.FullName);
+        }
+
+        public void Finished()
+        {
+            
         }
     }
 

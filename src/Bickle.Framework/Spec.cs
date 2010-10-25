@@ -80,7 +80,7 @@ namespace Bickle
         {
             foreach (var describe in _describes)
             {
-                describe.Execute();
+                describe.Execute(listener);
             }
         }
     }
