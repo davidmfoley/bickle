@@ -8,8 +8,8 @@
     <ProjectGuid>{D55EEAA8-3532-4AEF-9ADF-0529A636E282}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RedundantSpec.Tests</RootNamespace>
-    <AssemblyName>RedundantSpec.Tests</AssemblyName>
+    <RootNamespace>Bickle.Tests</RootNamespace>
+    <AssemblyName>Bickle.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

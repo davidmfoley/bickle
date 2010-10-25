@@ -1,6 +1,7 @@
-﻿using NUnit.Framework;
+﻿using Bickle;
+using NUnit.Framework;
 
-namespace RedundantSpec.Tests
+namespace Bickle.Tests
 {
     public class SpecFor<T> where T : Spec, new()
     {

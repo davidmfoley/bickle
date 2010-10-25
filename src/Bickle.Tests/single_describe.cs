@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bickle;
 using NUnit.Framework;
 
-namespace RedundantSpec.Tests
+namespace Bickle.Tests
 {
     public class SingleDescribe : Spec
     {

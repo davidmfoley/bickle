@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Bickle;
 
-namespace RedundantSpec
+namespace Bickle
 {
     public class Spec
     {

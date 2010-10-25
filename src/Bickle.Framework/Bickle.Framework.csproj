@@ -8,8 +8,8 @@
     <ProjectGuid>{A16D2C8C-B99B-45D4-9127-176BE9F99F47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RedundantSpec</RootNamespace>
-    <AssemblyName>RedundantSpec</AssemblyName>
+    <RootNamespace>Bickle</RootNamespace>
+    <AssemblyName>Bickle.Framework</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

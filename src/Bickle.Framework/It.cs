@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RedundantSpec
+namespace Bickle
 {
     public class It
     {

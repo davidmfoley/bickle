@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
-namespace RedundantSpec.Tests
+namespace Bickle.Tests
 {
     [TestFixture]
     public class nested_describe : SpecFor<NestedDescribe>

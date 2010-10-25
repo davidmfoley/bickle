@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RedundantSpec
+namespace Bickle
 {
     public interface ITestResultListener
     {
