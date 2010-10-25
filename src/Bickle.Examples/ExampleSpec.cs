@@ -19,7 +19,11 @@ namespace Bickle.Examples
 
                     It("supports using an action with an assert", () => Assert.IsTrue(true));
 
-                    It("translates exceptions into failures", () => { if (true) throw new ApplicationException("Failed!"); return;});
+                    It("translates exceptions into failures", () =>
+                    {
+                        if (true) throw new ApplicationException("Failed!");
+                        return;
+                    });
                     It("also supports a predicate (func returning a bool)", () => Foo == 2);
 
                     Describe("Simple assertions can use Specify()", () =>
@@ -39,11 +43,10 @@ namespace Bickle.Examples
                         {
                             Specify(() => Foo > 100);
                             Specify(() => Foo == 100);
-                            Specify(()=>5 < 6);
+                            Specify(() => 5 < 6);
                         });
                     });
 
-                    
 
                     It("Can handle pending steps", Pending);
 
@@ -54,10 +57,10 @@ namespace Bickle.Examples
                             Describe("Ignore can contain describes", () =>
                             {
                                 It("will not run any contents of the ignore", () => false);
-                                Expect(()=> 0==1);
+                                Expect(() => 0 == 1);
                             });
 
-                            It("can also contain its", ()=>false);
+                            It("can also contain its", () => false);
                         });
                     });
                 });

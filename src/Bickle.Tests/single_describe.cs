@@ -23,10 +23,18 @@ namespace Bickle.Tests
 
     [TestFixture]
     public class single_describe : SpecFor<SingleDescribe>
-    {      
+    {
+        [Test]
+        public void has_a_before()
+        {
+            SingleDescribe.BeforeWasCalled = false;
+            ExampleContainers[0].Before();
+            SingleDescribe.BeforeWasCalled.ShouldBe(true);
+        }
+
         [Test]
         public void has_a_single_describe()
-        {           
+        {
             ExampleContainers.Length.ShouldBe(1);
             ExampleContainers[0].Name.ShouldBe("Foo");
         }
@@ -42,29 +50,19 @@ namespace Bickle.Tests
         }
 
         [Test]
-        public void has_a_before()
-        {
-            SingleDescribe.BeforeWasCalled = false;
-            ExampleContainers[0].Before();
-            SingleDescribe.BeforeWasCalled.ShouldBe(true);
-        }
-
-        [Test]
         public void has_an_after()
         {
             SingleDescribe.AfterWasCalled = false;
             ExampleContainers[0].After();
             SingleDescribe.AfterWasCalled.ShouldBe(true);
-        }   
+        }
     }
 
     public class FakeResultListener : ITestResultListener
     {
         public List<string> Calls = new List<string>();
-        public void Running(Example example)
-        {
-            
-        }
+
+        #region ITestResultListener Members
 
         public void Failed(Example example, Exception exception)
         {
@@ -78,19 +76,22 @@ namespace Bickle.Tests
 
         public void Finished()
         {
-            
         }
 
         public void Pending(Example example)
         {
-             Calls.Add("Pending - " + example.FullName);
+            Calls.Add("Pending - " + example.FullName);
         }
 
         public void Ignored(Example example)
         {
             Calls.Add("Ignored - " + example.FullName);
         }
-    }
 
-   
+        #endregion
+
+        public void Running(Example example)
+        {
+        }
+    }
 }

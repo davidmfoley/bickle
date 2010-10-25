@@ -2,11 +2,11 @@
 
 namespace Bickle
 {
-    class Program
+    internal class Program
     {
         private const string Usage = "bickle {assembly to test}";
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (args.Length != 1)
             {
@@ -14,10 +14,9 @@ namespace Bickle
                 return;
             }
 
-            var assemblyLocation = args[0];
+            string assemblyLocation = args[0];
 
             new SpecRunner().Run(assemblyLocation);
-
         }
 
         private static void PrintUsage()

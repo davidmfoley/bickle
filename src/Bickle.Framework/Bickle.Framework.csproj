@@ -39,8 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActiveExampleContainer.cs" />
     <Compile Include="AssertionException.cs" />
+    <Compile Include="ColorConsoleListener.cs" />
     <Compile Include="ConsoleListener.cs" />
+    <Compile Include="InactiveExampleContainer.cs" />
     <Compile Include="ITestResultListener.cs" />
     <Compile Include="Spec.cs" />
     <Compile Include="ExampleContainer.cs" />

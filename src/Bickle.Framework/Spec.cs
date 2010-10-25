@@ -2,16 +2,13 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime.Serialization;
-using Bickle;
-using Microsoft.Contracts;
 
 namespace Bickle
 {
     public class Spec
     {
-        private List<ExampleContainer> _describes = new List<ExampleContainer>();
-        private Action<string, Action> _itHandler = (x, y) => { };
-        private Stack<ExampleContainer> _describeStack = new Stack<ExampleContainer>();
+        private readonly Stack<ExampleContainer> _describeStack = new Stack<ExampleContainer>();
+        private readonly List<ExampleContainer> _describes = new List<ExampleContainer>();
 
         public static void Pending()
         {
@@ -21,24 +18,25 @@ namespace Bickle
         protected void Ignore(string area, Action spec)
         {
             var describe = new InactiveExampleContainer(area, CurrentDescribe());
-            RunDescribe(spec, describe);           
+            RunDescribe(spec, describe);
         }
 
         protected void Ignore(Action spec)
         {
             Ignore("Ignored", spec);
         }
+
         protected void Describe(string area, Action spec)
         {
             var describe = new ActiveExampleContainer(area, CurrentDescribe());
-            RunDescribe(spec, describe);           
+            RunDescribe(spec, describe);
         }
 
         protected void Before(Action spec)
         {
             CurrentDescribe().Before = spec;
         }
-        
+
         protected void After(Action spec)
         {
             CurrentDescribe().After = spec;
@@ -64,7 +62,6 @@ namespace Bickle
             CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe()));
         }
 
-        
 
         private Action Wrap(Expression<Func<bool>> spec)
         {
@@ -93,7 +90,7 @@ namespace Bickle
 
             _describeStack.Push(exampleContainer);
 
-            
+
             spec();
             _describeStack.Pop();
         }
@@ -110,7 +107,7 @@ namespace Bickle
 
         public void Execute(ITestResultListener listener)
         {
-            foreach (var describe in _describes)
+            foreach (ExampleContainer describe in _describes)
             {
                 describe.Execute(listener);
             }

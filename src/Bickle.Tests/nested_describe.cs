@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
@@ -9,10 +8,12 @@ namespace Bickle.Tests
     public class nested_describe : SpecFor<NestedDescribe>
     {
         [Test]
-        public void Should_have_one_describe()
+        public void Should_execute_in_correct_order()
         {
-            ExampleContainers.Length.ShouldBe(1);
-            ExampleContainers[0].Name.ShouldBe("Foo");
+            var spec = new NestedDescribe();
+            spec.Execute(new FakeResultListener());
+            var expected = new[] {"OuterBefore", "InnerBefore", "It", "InnerAfter", "OuterAfter"};
+            Assert.That(spec.Events, Is.EquivalentTo(expected));
         }
 
         [Test]
@@ -32,12 +33,10 @@ namespace Bickle.Tests
         }
 
         [Test]
-        public void Should_execute_in_correct_order()
+        public void Should_have_one_describe()
         {
-            var spec = new NestedDescribe();
-            spec.Execute(new FakeResultListener());
-            var expected = new[] { "OuterBefore", "InnerBefore", "It", "InnerAfter", "OuterAfter" };
-            Assert.That(spec.Events, Is.EquivalentTo(expected));
+            ExampleContainers.Length.ShouldBe(1);
+            ExampleContainers[0].Name.ShouldBe("Foo");
         }
     }
 
@@ -55,7 +54,8 @@ namespace Bickle.Tests
                 Describe("Bar", () =>
                 {
                     Before(() => Record("InnerBefore"));
-                    It("Should Baz", () => { 
+                    It("Should Baz", () =>
+                    {
                         Record("It");
                         ItWasCalled = true;
                     });

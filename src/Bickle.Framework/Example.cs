@@ -9,14 +9,6 @@ namespace Bickle
         private readonly ExampleContainer _parent;
         public string Name;
 
-        public string FullName
-        {
-            get
-            {
-                return _parent.FullName + "\r\n" + Name;
-            }
-        }
-
         public Example(string name, Action action, ExampleContainer parent)
         {
             Name = name;
@@ -31,9 +23,14 @@ namespace Bickle
             _parent = parent;
         }
 
-        private Action BuildAction(Expression<Func<bool>> spec)
+        public string FullName
         {
-            return ()=>
+            get { return _parent.FullName + "\r\n" + Name; }
+        }
+
+        private static Action BuildAction(Expression<Func<bool>> spec)
+        {
+            return () =>
             {
                 if (!spec.Compile()())
                 {
@@ -48,17 +45,17 @@ namespace Bickle
         }
 
         public void Execute(ITestResultListener listener)
-        {           
+        {
             try
             {
                 _action();
                 listener.Success(this);
             }
-            catch(PendingException)
+            catch (PendingException)
             {
                 listener.Pending(this);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 listener.Failed(this, ex);
             }

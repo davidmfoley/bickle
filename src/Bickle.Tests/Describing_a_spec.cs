@@ -9,16 +9,8 @@ namespace Bickle.Tests
         public void Can_describe_an_equals()
         {
             int foo = 4;
-            var description = SpecDescriber.DescribeSpec(() => foo == 5);
+            string description = SpecDescriber.DescribeSpec(() => foo == 5);
             description.ShouldBe("foo should equal 5");
-        }
-
-        [Test]
-        public void Can_describe_not_equals()
-        {
-            int foo = 4;
-            var description = SpecDescriber.DescribeSpec(() => foo != 5);
-            description.ShouldBe("foo should not equal 5");
         }
 
         [Test]
@@ -26,8 +18,16 @@ namespace Bickle.Tests
         {
             int foo = 4;
             int bar = 5;
-            var description = SpecDescriber.DescribeSpec(() => foo > bar);
+            string description = SpecDescriber.DescribeSpec(() => foo > bar);
             description.ShouldBe("foo should be greater than bar");
+        }
+
+        [Test]
+        public void Can_describe_not_equals()
+        {
+            int foo = 4;
+            string description = SpecDescriber.DescribeSpec(() => foo != 5);
+            description.ShouldBe("foo should not equal 5");
         }
     }
 }

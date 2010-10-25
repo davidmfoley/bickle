@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Bickle;
 
 namespace Bickle
 {
@@ -12,7 +11,7 @@ namespace Bickle
         {
             var listener = new ColorConsoleListener();
 
-            foreach (var type in GetSpecTypes(assemblyLocation))
+            foreach (Type type in GetSpecTypes(assemblyLocation))
                 ExecuteSpecs(type, listener);
 
             listener.Finished();
@@ -20,7 +19,7 @@ namespace Bickle
 
         private void ExecuteSpecs(Type type, ConsoleListener listener)
         {
-            var instance = (Spec)Activator.CreateInstance(type);
+            var instance = (Spec) Activator.CreateInstance(type);
 
             instance.Execute(listener);
 
@@ -31,7 +30,7 @@ namespace Bickle
 
         private IEnumerable<Type> GetSpecTypes(string assemblyLocation)
         {
-            var assembly = Assembly.LoadFrom(assemblyLocation);
+            Assembly assembly = Assembly.LoadFrom(assemblyLocation);
             return assembly.GetTypes().Where(t => t.IsSubclassOf(typeof (Spec)));
         }
     }

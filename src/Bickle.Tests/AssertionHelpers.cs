@@ -11,7 +11,8 @@ namespace Bickle.Tests
 
         public static void ShouldStartWith(this string actual, string expected)
         {
-            Assert.That(actual.StartsWith(expected), "Failed!\r\nExpected:\r\n '" + actual+ "'\r\nto start with\r\n '" + expected+"'" );
+            Assert.That(actual.StartsWith(expected),
+                        "Failed!\r\nExpected:\r\n '" + actual + "'\r\nto start with\r\n '" + expected + "'");
         }
     }
 }

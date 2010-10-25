@@ -1,5 +1,4 @@
-﻿using Bickle;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Bickle.Tests
 {
@@ -13,6 +12,6 @@ namespace Bickle.Tests
             var spec = new T();
 
             ExampleContainers = spec.GetSpecs();
-        }      
+        }
     }
 }
