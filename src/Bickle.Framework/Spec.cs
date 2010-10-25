@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
 using Bickle;
+using Microsoft.Contracts;
 
 namespace Bickle
 {
@@ -10,7 +12,12 @@ namespace Bickle
         private List<ExampleContainer> _describes = new List<ExampleContainer>();
         private Action<string, Action> _itHandler = (x, y) => { };
         private Stack<ExampleContainer> _describeStack = new Stack<ExampleContainer>();
-               
+
+        public static void Pending()
+        {
+            throw new PendingException();
+        }
+
         protected void Describe(string area, Action spec)
         {
             var describe = new ExampleContainer(area, CurrentDescribe());
@@ -40,7 +47,16 @@ namespace Bickle
 
         protected void Specify(Expression<Func<bool>> spec)
         {
-            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), spec, CurrentDescribe()));
+            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe()));
+        }
+
+        private Action Wrap(Expression<Func<bool>> spec)
+        {
+            return () =>
+            {
+                if (!spec.Compile()())
+                    throw new AssertionException(SpecDescriber.DescribeFailure(spec));
+            };
         }
 
         private ExampleContainer CurrentDescribe()
@@ -82,6 +98,35 @@ namespace Bickle
             {
                 describe.Execute(listener);
             }
+        }
+    }
+
+    [Serializable]
+    public class PendingException : Exception
+    {
+        //
+        // For guidelines regarding the creation of new exception types, see
+        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
+        // and
+        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
+        //
+
+        public PendingException()
+        {
+        }
+
+        public PendingException(string message) : base(message)
+        {
+        }
+
+        public PendingException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
+        protected PendingException(
+            SerializationInfo info,
+            StreamingContext context) : base(info, context)
+        {
         }
     }
 }

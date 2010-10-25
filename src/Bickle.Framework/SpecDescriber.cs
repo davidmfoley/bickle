@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Bickle
@@ -14,8 +15,63 @@ namespace Bickle
             var binary = spec.Body as BinaryExpression;
             var left = DescribeExpression(binary.Left);
             var right = DescribeExpression(binary.Right);
-            return left + " " + ExtractOperator(binary) + " " + right;
+            return left + " " + ExtractOperator(binary) + " " + right;            
+        }
+
+        public static string DescribeFailure(Expression<Func<bool>> spec)
+        {
+            var binary = spec.Body as BinaryExpression;
             
+            
+            var description = "Expected: " + DescribeSpec(spec);
+
+            var left = DescribeValue(binary.Left);
+            var right = DescribeValue(binary.Right);
+
+            if (!string.IsNullOrEmpty(left))
+            {
+                description += ", " + left;
+            }
+
+            if (!string.IsNullOrEmpty(right))
+            {
+                description += ", " + right;
+            }
+
+            return description;
+        }
+
+        private static string DescribeValue(Expression exp)
+        {
+            if (exp is MemberExpression)
+            {
+                var memberExpression = (MemberExpression) exp;
+                var daddy = memberExpression.Expression;
+                
+                if (daddy is ConstantExpression)
+                {
+                    var holder = ((ConstantExpression) daddy).Value;
+
+                    var memberInfo = memberExpression.Member;
+                    return memberInfo.Name + " was " +  Evaluate(holder, memberInfo);                   
+                }
+                
+            }
+
+            return "";
+        }
+
+        private static string Evaluate(object holder, MemberInfo member)
+        {
+            if (member is FieldInfo)
+            {
+                return ((FieldInfo) member).GetValue(holder).ToString();
+            }
+            if (member is PropertyInfo)
+            {
+                return ((PropertyInfo) member).GetValue(holder, null).ToString();
+            }
+            return member.ToString();
         }
 
         private static string ExtractOperator(BinaryExpression binary)
@@ -23,9 +79,19 @@ namespace Bickle
             string op = Regex.Match(binary.ToString(), " (=|!=|<=|>=|<|>) ").Groups[1].Value;
             
             if (op == "=")
-                return "==";
+                return "should equal";
+            if (op == "!=")
+                return "should not equal";
+            if (op == "<=")
+                return "should be less than or equal to";
+            if (op == "<")
+                return "should be less than";
+            if (op == ">=")
+                return "should be greater than or equal to";
+            if (op == ">")
+                return "should be greater than";
 
-            return op;
+            return "should " + op;
         }
 
         private static string DescribeExpression(Expression exp)

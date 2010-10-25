@@ -26,7 +26,7 @@ namespace Bickle
         
         public string FullName
         {
-            get { return (_parent != null ? _parent.FullName + ", " : "") + Name; }
+            get { return (_parent != null ? _parent.FullName + "\r\n" : "") + Name; }
         }
 
         public ExampleContainer(string name, ExampleContainer parent)

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace Bickle.Examples
 {
@@ -8,16 +9,33 @@ namespace Bickle.Examples
 
         public ExampleSpec()
         {
-            Describe("An example spec", () =>
+            Describe("Bickle", () =>
             {
-                Describe("an inner spec", () =>
+                Describe("Creating Examples", () =>
                 {
+                    int Foo = 2;
                     Before(() => Befores++);
 
-                    It("should have called before once", () => Assert.AreEqual(1, Befores));
-                    It("should have called before again", () => Befores == 2);
-                    Specify(() => Befores > 100);
-                    Specify(() => Befores < 100);
+                    It("supports using an action with an assert", () => Assert.IsTrue(true));
+
+                    It("translates exceptions into failures", () => { throw new ApplicationException("Failed!"); return;});
+                    It("also supports a predicate (func returning a bool)", () => Foo == 2);
+
+                    Describe("Simple assertions can use Specify()", () =>
+                    {
+                        Specify(() => 100 == 100);
+                        Specify(() => 101 > 100);
+                        Specify(() => 99 <= 100);
+
+                        Describe("Failures are translated", () =>
+                        {
+                            Specify(() => Foo > 100);
+                            Specify(() => Foo == 100);
+                            Specify(()=>5 < 6);
+                        });
+                    });
+
+                    It("Can handle pending steps", Pending);
                 });
             });
         }

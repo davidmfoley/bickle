@@ -80,6 +80,12 @@ namespace Bickle.Tests
         {
             
         }
+
+        public void Pending(Example example)
+        {
+             Calls.Add("Pending - " + example.FullName);
+        }
+        
     }
 
    

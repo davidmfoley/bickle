@@ -13,7 +13,7 @@ namespace Bickle
         {
             get
             {
-                return _parent.FullName + ", " + Name;
+                return _parent.FullName + "\r\n" + Name;
             }
         }
 
@@ -53,6 +53,10 @@ namespace Bickle
             {
                 _action();
                 listener.Success(this);
+            }
+            catch(PendingException pex)
+            {
+                listener.Pending(this);
             }
             catch(Exception ex)
             {

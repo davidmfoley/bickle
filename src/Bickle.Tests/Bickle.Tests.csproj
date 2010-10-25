@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AssertionHelpers.cs" />
     <Compile Include="Executing_an_it.cs" />
+    <Compile Include="Executing_examples.cs" />
     <Compile Include="nested_describe.cs" />
     <Compile Include="single_describe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
