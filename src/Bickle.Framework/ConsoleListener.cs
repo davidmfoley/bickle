@@ -4,8 +4,55 @@ using System.Linq;
 
 namespace Bickle
 {
-    public class ConsoleListener : ITestResultListener
+    public class ColorConsoleListener : ConsoleListener
     {
+        private ConsoleColor _defaultColor;
+        private Dictionary<MessageType, ConsoleColor> _colors = new Dictionary<MessageType, ConsoleColor>();
+
+        public ColorConsoleListener()
+        {
+            _defaultColor = Console.ForegroundColor;
+            _colors.Add(MessageType.Failure, ConsoleColor.Red);
+            _colors.Add(MessageType.Ignored, ConsoleColor.Gray);
+            _colors.Add(MessageType.Pending, ConsoleColor.Yellow);
+
+            _colors.Add(MessageType.Succeeded, ConsoleColor.Green);
+        }
+
+        protected override void Write(MessageType messageType, string message)
+        {
+            Console.ForegroundColor = GetColorForMessageType(messageType);
+            Console.Write(message);
+            Console.ForegroundColor = _defaultColor;
+        }
+
+        private ConsoleColor GetColorForMessageType(MessageType messageType)
+        {
+            if (_colors.ContainsKey(messageType))
+                return _colors[messageType];
+
+            return ConsoleColor.White;
+        }
+    }
+    public abstract class ConsoleListener : ITestResultListener
+    {
+        protected abstract void Write(MessageType messageType, string message);
+
+        void Write(string message)
+        {
+            Write(MessageType.Normal, message);
+        }
+
+        void WriteLine(string message)
+        {
+            WriteLine(MessageType.Normal, message);
+        }
+
+        private void WriteLine(MessageType messageType, string message)
+        {
+            Write(messageType, message + "\r\n");
+        }
+
         private List<string> _failures = new List<string>();
         private int _successCount;
         private int _totalCount;
@@ -18,7 +65,7 @@ namespace Bickle
 
         public void Failed(Example example, Exception exception)
         {
-            Console.Write("F");
+            Write(MessageType.Failure, "F");
             _failures.Add(CreateFailureMessage(example, exception));
         }
 
@@ -40,28 +87,42 @@ namespace Bickle
 
         public void Success(Example example)
         {
-            Console.Write(".");
+            Write(MessageType.Succeeded,".");
             _successCount++;
         }
 
         public void Finished()
         {
-            Console.WriteLine();
+            WriteLine("");
 
-            var failureCount = _failures.Count;
-            var message = _totalCount + " examples";
-            if (failureCount == 1)
-            {
-                message += ", 1 failure";
-            }
-            else
-            {
-                message += ", " + failureCount.ToString() + " failures";
-            }
-            Console.WriteLine(message);
+          
+
+            Write(MessageType.Normal, _totalCount + " examples");
+
+            WriteCount("failure", "failures", _failures.Count, MessageType.Failure);
+            WriteCount("pending", "pending", _pendings.Count, MessageType.Pending);
+
+            WriteLine("");
+           
 
             WriteSpecInfos("Failures:", _failures);
             WriteSpecInfos("Pending:", _pendings);
+        }
+
+        private void WriteCount(string single, string plural, int count, MessageType nonZeroColor)
+        {
+            Write(MessageType.Normal, ", ");
+            var failureCount = count;
+            var messageType = failureCount > 0 ? nonZeroColor : MessageType.Succeeded;
+
+            if (failureCount == 1)
+            {
+                Write(messageType, "1 " + single);
+            }
+            else
+            {
+                Write(messageType, failureCount.ToString() + " " + plural);
+            }
         }
 
         private void WriteSpecInfos(string title, List<string> infos)
@@ -69,24 +130,33 @@ namespace Bickle
             if (!infos.Any())
                 return;
 
-            Console.WriteLine();
-            Console.WriteLine(title);
+            WriteLine("");
+            WriteLine(title);
             foreach (var failure in infos)
             {
-                Console.WriteLine();
-                Console.WriteLine(failure);
+                WriteLine("");
+                WriteLine(failure);
             }
         }
 
         public void Pending(Example example)
         {
-            Console.Write("P");
+            Write(MessageType.Pending, "P");
             _pendings.Add(example.FullName);
         }
 
         public void Ignored(Example example)
         {
-            Console.Write("I");
+            Write(MessageType.Ignored, "I");
         }
+    }
+
+    public enum MessageType
+    {
+        Failure,
+        Normal,
+        Pending,
+        Ignored,
+        Succeeded
     }
 }

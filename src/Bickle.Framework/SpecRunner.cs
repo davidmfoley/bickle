@@ -10,7 +10,7 @@ namespace Bickle
     {
         public void Run(string assemblyLocation)
         {
-            var listener = new ConsoleListener();
+            var listener = new ColorConsoleListener();
 
             foreach (var type in GetSpecTypes(assemblyLocation))
                 ExecuteSpecs(type, listener);
