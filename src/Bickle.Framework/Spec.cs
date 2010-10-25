@@ -38,6 +38,11 @@ namespace Bickle
             CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe()));
         }
 
+        protected void Specify(Expression<Func<bool>> spec)
+        {
+            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), spec, CurrentDescribe()));
+        }
+
         private ExampleContainer CurrentDescribe()
         {
             return _describeStack.Count > 0 ? _describeStack.Peek() : null;

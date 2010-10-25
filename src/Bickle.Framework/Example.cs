@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Bickle
@@ -10,9 +9,13 @@ namespace Bickle
         private readonly ExampleContainer _parent;
         public string Name;
 
-        public string FullName { get { var names = new List<string>();
-            return _parent.FullName + ", " + Name;
-        }}
+        public string FullName
+        {
+            get
+            {
+                return _parent.FullName + ", " + Name;
+            }
+        }
 
         public Example(string name, Action action, ExampleContainer parent)
         {
@@ -30,8 +33,15 @@ namespace Bickle
 
         private Action BuildAction(Expression<Func<bool>> spec)
         {
-            return null;
+            return ()=>
+            {
+                if (!spec.Compile()())
+                {
+                    throw new AssertionException("Failed:" + SpecDescriber.DescribeSpec(spec));
+                }
+            };
         }
+
 
         public void Action()
         {

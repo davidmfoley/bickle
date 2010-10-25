@@ -1,0 +1,1 @@
+src\Bickle\bin\debug\Bickle.exe src\Bickle.Examples\bin\debug\Bickle.Examples.dll
