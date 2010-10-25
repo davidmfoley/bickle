@@ -54,7 +54,7 @@ namespace Bickle
                 _action();
                 listener.Success(this);
             }
-            catch(PendingException pex)
+            catch(PendingException)
             {
                 listener.Pending(this);
             }

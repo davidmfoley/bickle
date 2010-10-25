@@ -13,17 +13,18 @@ namespace Bickle.Examples
             {
                 Describe("Creating Examples", () =>
                 {
+                    // you can declare context variables at any clsure level you wish
                     int Foo = 2;
                     Before(() => Befores++);
 
                     It("supports using an action with an assert", () => Assert.IsTrue(true));
 
-                    It("translates exceptions into failures", () => { throw new ApplicationException("Failed!"); return;});
+                    It("translates exceptions into failures", () => { if (true) throw new ApplicationException("Failed!"); return;});
                     It("also supports a predicate (func returning a bool)", () => Foo == 2);
 
                     Describe("Simple assertions can use Specify()", () =>
                     {
-                        Specify(() => 100 == 100);
+                        Specify(() => Foo == (99 + 5));
                         Specify(() => 101 > 100);
                         Specify(() => 99 <= 100);
 

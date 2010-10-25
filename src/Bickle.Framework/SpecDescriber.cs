@@ -10,7 +10,7 @@ namespace Bickle
         public static string DescribeSpec(Expression<Func<bool>> spec)
         {
             if (!(spec.Body is BinaryExpression))
-                return "(unknown)";
+                return "(no more info)";
 
             var binary = spec.Body as BinaryExpression;
             var left = DescribeExpression(binary.Left);
@@ -21,8 +21,10 @@ namespace Bickle
         public static string DescribeFailure(Expression<Func<bool>> spec)
         {
             var binary = spec.Body as BinaryExpression;
-            
-            
+
+            if (binary == null)
+                return spec.ToString();
+
             var description = "Expected: " + DescribeSpec(spec);
 
             var left = DescribeValue(binary.Left);
@@ -54,8 +56,7 @@ namespace Bickle
 
                     var memberInfo = memberExpression.Member;
                     return memberInfo.Name + " was " +  Evaluate(holder, memberInfo);                   
-                }
-                
+                }                
             }
 
             return "";

@@ -37,12 +37,7 @@ namespace Bickle
     public abstract class ConsoleListener : ITestResultListener
     {
         protected abstract void Write(MessageType messageType, string message);
-
-        void Write(string message)
-        {
-            Write(MessageType.Normal, message);
-        }
-
+    
         void WriteLine(string message)
         {
             WriteLine(MessageType.Normal, message);
@@ -58,16 +53,34 @@ namespace Bickle
         private int _totalCount;
         private List<string> _pendings = new List<string>();
 
-        public void Running(Example example)
+
+        public void Success(Example example)
         {
             _totalCount++;
+            Write(MessageType.Succeeded, ".");
+            _successCount++;
+        }
+
+        public void Ignored(Example example)
+        {
+            _totalCount++;
+            Write(MessageType.Ignored, "I");
         }
 
         public void Failed(Example example, Exception exception)
         {
+            _totalCount++;
             Write(MessageType.Failure, "F");
             _failures.Add(CreateFailureMessage(example, exception));
         }
+
+        public void Pending(Example example)
+        {
+            _totalCount++;
+            Write(MessageType.Pending, "P");
+            _pendings.Add((_pendings.Count + 1).ToString() + ") Pending: " + example.FullName);
+        }
+
 
         private string CreateFailureMessage(Example example, Exception exception)
         {
@@ -85,28 +98,25 @@ namespace Bickle
             return exception.ToString();
         }
 
-        public void Success(Example example)
-        {
-            Write(MessageType.Succeeded,".");
-            _successCount++;
-        }
+       
 
         public void Finished()
         {
+           
             WriteLine("");
 
-          
+            WriteSpecInfos("Failures:", _failures, MessageType.Failure);
+            WriteSpecInfos("Pending:", _pendings, MessageType.Pending);
+
+            WriteLine("");
 
             Write(MessageType.Normal, _totalCount + " examples");
 
             WriteCount("failure", "failures", _failures.Count, MessageType.Failure);
             WriteCount("pending", "pending", _pendings.Count, MessageType.Pending);
 
-            WriteLine("");
-           
 
-            WriteSpecInfos("Failures:", _failures);
-            WriteSpecInfos("Pending:", _pendings);
+            WriteLine("");
         }
 
         private void WriteCount(string single, string plural, int count, MessageType nonZeroColor)
@@ -125,30 +135,22 @@ namespace Bickle
             }
         }
 
-        private void WriteSpecInfos(string title, List<string> infos)
+        private void WriteSpecInfos(string title, List<string> infos, MessageType messageType)
         {
             if (!infos.Any())
                 return;
 
             WriteLine("");
-            WriteLine(title);
-            foreach (var failure in infos)
+            WriteLine(messageType,title);
+            foreach (var info in infos)
             {
                 WriteLine("");
-                WriteLine(failure);
+                WriteLine(messageType, info);
             }
         }
 
-        public void Pending(Example example)
-        {
-            Write(MessageType.Pending, "P");
-            _pendings.Add(example.FullName);
-        }
-
-        public void Ignored(Example example)
-        {
-            Write(MessageType.Ignored, "I");
-        }
+        
+      
     }
 
     public enum MessageType
