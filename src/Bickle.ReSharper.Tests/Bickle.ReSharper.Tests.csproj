@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{91AD62C7-76F7-4E6A-8015-B1AE6FD453C0}</ProjectGuid>
+    <ProjectGuid>{B7DB4CF5-3DC6-4055-845E-9B9A933FD27F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bickle.ReSharper</RootNamespace>
-    <AssemblyName>Bickle.ReSharper</AssemblyName>
+    <RootNamespace>Bickle.ReSharper.Tests</RootNamespace>
+    <AssemblyName>Bickle.ReSharper.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,57 +31,66 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Platform.ReSharper.Metadata">
+    <Reference Include="JetBrains.Platform.ReSharper.Metadata, Version=5.1.1727.12, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JetBrains\JetBrains.Platform.ReSharper.Metadata.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.ProjectModel">
+    <Reference Include="JetBrains.Platform.ReSharper.ProjectModel, Version=5.1.1727.12, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JetBrains\JetBrains.Platform.ReSharper.ProjectModel.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.Shell">
+    <Reference Include="JetBrains.Platform.ReSharper.Shell, Version=5.1.1727.12, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JetBrains\JetBrains.Platform.ReSharper.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.UI">
+    <Reference Include="JetBrains.Platform.ReSharper.UI, Version=5.1.1727.12, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JetBrains\JetBrains.Platform.ReSharper.UI.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Platform.ReSharper.Util">
+    <Reference Include="JetBrains.Platform.ReSharper.Util, Version=5.1.1727.12, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JetBrains\JetBrains.Platform.ReSharper.Util.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.ReSharper.Psi">
+    <Reference Include="JetBrains.ReSharper.Psi, Version=5.1.1727.12, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JetBrains\JetBrains.ReSharper.Psi.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.ReSharper.TaskRunnerFramework">
+    <Reference Include="JetBrains.ReSharper.TaskRunnerFramework, Version=5.1.1727.12, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JetBrains\JetBrains.ReSharper.TaskRunnerFramework.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.ReSharper.UnitTestFramework">
+    <Reference Include="JetBrains.ReSharper.UnitTestFramework, Version=5.1.1727.12, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\JetBrains\JetBrains.ReSharper.UnitTestFramework.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.ReSharper.VS">
       <HintPath>..\..\lib\JetBrains\JetBrains.ReSharper.VS.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\..\lib\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BickleAssemblyExplorer.cs" />
-    <Compile Include="BickleElementComparer.cs" />
-    <Compile Include="BickleElementPresenter.cs" />
-    <Compile Include="BickleTaskFactory.cs" />
-    <Compile Include="BickleTaskRunner.cs" />
-    <Compile Include="BickleTestProvider.cs" />
-    <Compile Include="BickleUnitTestElement.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bickle.Framework\Bickle.Framework.csproj">
       <Project>{A16D2C8C-B99B-45D4-9127-176BE9F99F47}</Project>
       <Name>Bickle.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bickle.ReSharper\Bickle.ReSharper.csproj">
+      <Project>{91AD62C7-76F7-4E6A-8015-B1AE6FD453C0}</Project>
+      <Name>Bickle.ReSharper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

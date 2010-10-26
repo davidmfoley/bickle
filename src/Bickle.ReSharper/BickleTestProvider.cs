@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net.Mime;
-using System.Text;
 using JetBrains.Application;
 using JetBrains.CommonControls;
 using JetBrains.Metadata.Reader.API;
@@ -101,53 +98,11 @@ namespace Bickle.ReSharper
 
         public void ExploreAssembly(IMetadataAssembly assembly, IProject project, UnitTestElementConsumer consumer)
         {
-            ReadLockCookie.Execute(() => { _assemblyExplorer.ExploreProject(project, consumer); });
+            ReadLockCookie.Execute(() => { _assemblyExplorer.ExploreAssembly(assembly, project, consumer); });
         }
 
         public void ExploreSolution(ISolution solution, UnitTestElementConsumer consumer)
         {
         }
-    }
-
-    internal class BickleTaskFactory
-    {
-        public IList<UnitTestTask> GetTasks(UnitTestElement element, IList<UnitTestElement> explicitElements)
-        {
-            return new List<UnitTestTask>();
-        }
-    }
-
-    internal class BickleElementComparer
-    {
-        public bool IsDeclaredElementOfKind(IDeclaredElement declaredElement, UnitTestElementKind elementKind)
-        {
-            return false;
-        }
-
-        public int CompareUnitTestElements(UnitTestElement unitTestElement, UnitTestElement unitTestElement1)
-        {
-            return 0;
-        }
-    }
-
-    internal class BickleElementPresenter
-    {
-        public void Present(UnitTestElement element, IPresentableItem item, TreeModelNode node, PresentationState state)
-        {
-            
-        }
-    }
-
-    internal class BickleAssemblyExplorer
-    {
-        public void ExploreProject(IProject project, UnitTestElementConsumer consumer)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class BickleTaskRunner
-    {
-        public static string RunnerId;
     }
 }
