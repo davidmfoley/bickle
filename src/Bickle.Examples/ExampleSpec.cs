@@ -13,7 +13,7 @@ namespace Bickle.Examples
             {
                 Describe("Creating Examples", () =>
                 {
-                    // you can declare context variables at any clsure level you wish
+                    // you can declare context variables at any closure level you wish
                     int Foo = 2;
                     Before(() => Befores++);
 
