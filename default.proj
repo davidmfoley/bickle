@@ -1,0 +1,59 @@
+ <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5" DefaultTargets="BuildAll">
+  <PropertyGroup>
+    <BuildDir>_build</BuildDir>
+    <OutputPath>$(MSBuildProjectDirectory)\bin</OutputPath>
+    <PackageDirectory>$(OutputPath)\Package</PackageDirectory>
+    <JetBrainsLibPath>$(MSBuildProjectDirectory)\Lib\JetBrains</JetBrainsLibPath>
+  </PropertyGroup>
+
+   <PropertyGroup Condition="'$(ResharperBinPath)' == '' And Exists('C:\Program Files (x86)\JetBrains\ReSharper\v5.1\Bin')">
+     <ResharperBinPath>C:\Program Files (x86)\JetBrains\ReSharper\v5.1\Bin</ResharperBinPath>
+   </PropertyGroup>
+   <PropertyGroup Condition="'$(ResharperBinPath)' == '' And Exists('C:\Program Files\JetBrains\ReSharper\v5.1\Bin')">
+     <ResharperBinPath>C:\Program Files\JetBrains\ReSharper\v5.1\Bin</ResharperBinPath>
+   </PropertyGroup>
+
+   <Target Name="BuildAll"  DependsOnTargets="BuildCore;BuildReSharper">
+     
+   </Target>
+   
+   <Target Name="BuildCore" >
+     <MSBuild
+       Projects="src\Bickle.Framework\Bickle.Framework.csproj;src\Bickle\Bickle.csproj"
+       Properties="OutputPath=$(OutputPath)"
+    />
+   </Target>
+   
+   <Target Name="CopyReSharperDlls">
+     <Message Text="Copying ReSharper binaries from $(ReSharperBinPath)"/>
+
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.Platform.ReSharper.Metadata.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.Platform.ReSharper.ProjectModel.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.Platform.ReSharper.Shell.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.Platform.ReSharper.Util.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.ReSharper.Psi.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.ReSharper.TaskRunnerFramework.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.ReSharper.UnitTestFramework.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.Platform.ReSharper.UI.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.ReSharper.VS.dll" DestinationFolder="$(JetBrainsLibPath)" />
+   </Target>
+
+   <Target Name="BuildReSharper" DependsOnTargets="CopyReSharperDlls;BuildCore">
+     <Message Text="Checking for ReSharper binaries in: $(ReSharperBinPath) (you can override this using the ReSharperBinPath property) " Condition="'$(ReSharperBinPath)' != ''"/>
+     <Message Text="Could not find ReSharper binaries! You can use the ReSharperBinPath property to specify the location." Condition="'$(ReSharperBinPath)' == ''"/>
+     <CallTarget Targets ="CopyReSharperDlls"  Condition="'$(ReSharperBinPath)' != '' And Exists('$(ReSharperBinPath)\JetBrains.Platform.ReSharper.Metadata.dll')" />
+     <Message Text="Did not find ReSharper binaries in: $(ReSharperBinPath)"  Condition="!Exists('$(ReSharperBinPath)\JetBrains.Platform.ReSharper.Metadata.dll')" />
+     <Message Text="Checking for existing ReSharper binaries in: $(JetBrainsLibPath)"  Condition="!Exists('$(ReSharperBinPath)\JetBrains.Platform.ReSharper.Metadata.dll')" />
+     <Message Text="Skipping ReSharper build: can't find ReSharper assemblies. You can set the ReSharperBinPath property to fix this." Condition="!Exists('$(JetBrainsLibPath)\JetBrains.Platform.ReSharper.Metadata.dll')"/>
+
+     <CreateItem Include="$(OutputPath)\Bickle.Core.dll">
+       <Output TaskParameter="Include" ItemName="DllFiles" />
+     </CreateItem>     
+
+     <MSBuild
+       Projects="src/Bickle.ReSharper/Bickle.ReSharper.csproj"
+       Properties="OutputPath=$(OutputPath)"
+       Condition="Exists('$(JetBrainsLibPath)\JetBrains.Platform.ReSharper.Metadata.dll')"
+    />
+   </Target>
+</Project>
