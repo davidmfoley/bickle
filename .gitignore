@@ -7,4 +7,4 @@ bin
 obj
 *.csproj.user
 *.suo
-Lib/JetBrains
+lib/JetBrains
