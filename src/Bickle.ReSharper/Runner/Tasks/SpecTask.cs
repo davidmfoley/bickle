@@ -1,36 +1,36 @@
-﻿using System.Xml;
-using Bickle.ReSharper.Runner;
+﻿using System;
+using System.Xml;
 using JetBrains.ReSharper.TaskRunnerFramework;
 
-namespace Bickle.ReSharper.Tasks
+namespace Bickle.ReSharper.Runner.Tasks
 {
-    public class SpecTask : RemoteTask
+    [Serializable]
+    public class SpecTask : BickleRemoteTask, IEquatable<SpecTask>
     {
-        public string TypeName;
 
-        public SpecTask(string typeName) : base(BickleTaskRunner.RunnerId)
-        {
-            TypeName = typeName;
+
+        public SpecTask(string typeName, bool explicitly)
+            : base(typeName, explicitly)
+        {           
         }
 
         public SpecTask(XmlElement element)
             : base(element)
-        {
-            TypeName = GetXmlAttribute(element, "TypeName");
+        {           
         }
 
         public override bool Equals(RemoteTask other)
         {
             if (other is SpecTask)
-                return ((SpecTask)other).TypeName == TypeName;
+                return Equals((SpecTask) other);
 
             return false;
         }
 
-        public override void SaveXml(XmlElement element)
+
+        public bool Equals(SpecTask other)
         {
-            SetXmlAttribute(element, "TypeName", TypeName);
-            base.SaveXml(element);
+            return other.Id == Id && other.Explicitly == Explicitly;
         }
     }
 }

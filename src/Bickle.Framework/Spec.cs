@@ -10,6 +10,7 @@ namespace Bickle
 
         private readonly Stack<ExampleContainer> _describeStack = new Stack<ExampleContainer>();
         private readonly List<ExampleContainer> _describes = new List<ExampleContainer>();
+        private Dictionary<string, object> _idMap = new Dictionary<string, object>();
 
         public static void Pending()
         {
@@ -45,24 +46,30 @@ namespace Bickle
 
         protected void It(string area, Action spec)
         {
-            CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe(), this));
+            AddIt(new Example(area, spec, CurrentDescribe(), this));
         }
 
         protected void It(string area, Expression<Func<bool>> spec)
         {
-            CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe(), this));
+            AddIt(new Example(area, spec, CurrentDescribe(), this));
         }
 
         protected void Expect(Expression<Func<bool>> spec)
         {
-            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe(), this));
+            AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe(), this));
         }
 
         protected void Specify(Expression<Func<bool>> spec)
         {
-            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe(), this));
+            AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe(), this));
         }
 
+        private void AddIt(Example example)
+        {
+            
+            CurrentDescribe().AddIt(example);
+            _idMap.Add(example.Id, example);
+        }
 
         private Action Wrap(Expression<Func<bool>> spec)
         {
@@ -91,6 +98,8 @@ namespace Bickle
                 _describes.Add(exampleContainer);
             }
 
+            _idMap.Add(exampleContainer.Id, exampleContainer);
+
             _describeStack.Push(exampleContainer);
 
 
@@ -114,6 +123,12 @@ namespace Bickle
             {
                 describe.Execute(listener);
             }
+        }
+
+        public object FindExample(string id)
+        {
+
+            return _idMap[id];
         }
     }
 

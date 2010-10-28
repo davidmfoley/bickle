@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Bickle.ReSharper.Tasks;
+using Bickle.ReSharper.Runner.Tasks;
 using JetBrains.ReSharper.TaskRunnerFramework;
 
 namespace Bickle.ReSharper.Runner
@@ -13,16 +13,17 @@ namespace Bickle.ReSharper.Runner
     {
         public static string RunnerId = "Bickle";
         private readonly Dictionary<Type,RemoteTaskHandler> _handlers = new Dictionary<Type, RemoteTaskHandler>();
-        private ITestResultListener _listener = new ReSharperListener();
+        private ReSharperListener _listener;
+        private Spec _currentSpec;
 
         public BickleTaskRunner(IRemoteTaskServer server) : base(server)
         {
             SetHandler<ExecuteElementTask>(HandleExecuteElementTask);
-            SetHandler<ElementContainerTask>(HandleElementContainerTask);
+            SetHandler<ExampleContainerTask>(HandleElementContainerTask);
             SetHandler<SpecTask>(HandleSpecTask);
         }
 
-        private TaskResult HandleElementContainerTask(ElementContainerTask elementContainerTask, List<TaskExecutionNode> children)
+        private TaskResult HandleElementContainerTask(ExampleContainerTask exampleContainerTask, List<TaskExecutionNode> children)
         {
             
            Dispatch(children);
@@ -30,13 +31,17 @@ namespace Bickle.ReSharper.Runner
         }
 
         private TaskResult HandleSpecTask(SpecTask specTask, List<TaskExecutionNode> children)
-        {
+        {           
+            _currentSpec = (Spec) Activator.CreateInstance(Type.GetType(specTask.Id));
+            
+            Dispatch(children);
             return TaskResult.Success;
         }
 
         private TaskResult HandleExecuteElementTask(ExecuteElementTask executeElementTask, List<TaskExecutionNode> children)
-        {
-            
+        {           
+            var example = (Example)_currentSpec.FindExample(executeElementTask.Id);
+            example.Execute(_listener);
             return TaskResult.Success;
         }
 
@@ -47,6 +52,7 @@ namespace Bickle.ReSharper.Runner
 
         public override void ExecuteRecursive(TaskExecutionNode node)
         {
+            _listener = new ReSharperListener(Server);
             Dispatch(node);
         }
 
@@ -62,8 +68,9 @@ namespace Bickle.ReSharper.Runner
         {
             var remoteTask = node.RemoteTask;
 
+
             Server.TaskStarting(remoteTask);
-            
+            _listener.CurrentTask = remoteTask;
             var handler = _handlers[remoteTask.GetType()];
             var result = handler(remoteTask, node.Children);
             Server.TaskFinished(remoteTask, result.ToString(), result);

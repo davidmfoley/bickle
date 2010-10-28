@@ -1,37 +1,36 @@
 ﻿using System;
 using System.Xml;
-using Bickle.ReSharper.Runner;
 using JetBrains.ReSharper.TaskRunnerFramework;
 
-namespace Bickle.ReSharper.Tasks
+namespace Bickle.ReSharper.Runner.Tasks
 {
     [Serializable]
-    public class ExecuteElementTask : RemoteTask
+    public class ExecuteElementTask : BickleRemoteTask , IEquatable<ExecuteElementTask>
     {
-        public string Id;
 
-        public ExecuteElementTask(string id) : base(BickleTaskRunner.RunnerId)
+
+        public ExecuteElementTask(string id, bool explicitly)
+            : base(id, explicitly)
         {
-            Id = id;
+           
         }
 
         public ExecuteElementTask(XmlElement element) : base(element)
         {
-            Id = GetXmlAttribute(element, "Id");
+           
         }
 
         public override bool Equals(RemoteTask other)
         {
             if (other is ExecuteElementTask)
-                return ((ExecuteElementTask) other).Id == Id;
+                return Equals((ExecuteElementTask) other);
 
             return false;
         }
 
-        public override void SaveXml(XmlElement element)
+        public bool Equals(ExecuteElementTask other)
         {
-            SetXmlAttribute(element, "Id", Id);
-            base.SaveXml(element);
+            return other.Id == Id;
         }
     }
 }

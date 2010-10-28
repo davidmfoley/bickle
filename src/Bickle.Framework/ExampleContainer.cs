@@ -33,7 +33,7 @@ namespace Bickle
 
         public void AddIt(Example example)
         {
-            example.Id = this.Id + "/" + _its.Count.ToString("000");
+            example.Id = this.Id + "/example" + _its.Count.ToString("000");
             _its.Add(example);
         }
 

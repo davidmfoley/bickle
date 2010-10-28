@@ -73,7 +73,8 @@
     <Compile Include="Runner\BickleTaskRunner.cs" />
     <Compile Include="Provider\BickleTestProvider.cs" />
     <Compile Include="Runner\ReSharperListener.cs" />
-    <Compile Include="Runner\Tasks\ElementContainerTask.cs" />
+    <Compile Include="Runner\Tasks\BickleRemoteTask.cs" />
+    <Compile Include="Runner\Tasks\ExampleCOntainerTask.cs" />
     <Compile Include="Provider\Elements\BickleUnitTestElement.cs" />
     <Compile Include="Provider\ElementFactory.cs" />
     <Compile Include="Provider\Elements\ExampleContainerElement.cs" />
