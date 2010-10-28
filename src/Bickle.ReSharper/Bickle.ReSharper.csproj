@@ -79,6 +79,7 @@
     <Compile Include="Provider\ElementFactory.cs" />
     <Compile Include="Provider\Elements\ExampleContainerElement.cs" />
     <Compile Include="Provider\Elements\ExampleElement.cs" />
+    <Compile Include="Runner\Tasks\LoadContextAssemblyTask.cs" />
     <Compile Include="Runner\Tasks\SpecTask.cs" />
     <Compile Include="Runner\Tasks\ExecuteElementTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Bickle.ReSharper.Provider.Elements;
 using Bickle.ReSharper.Runner.Tasks;
 using JetBrains.ReSharper.TaskRunnerFramework;
@@ -11,12 +13,18 @@ namespace Bickle.ReSharper.Runner
         private List<WrappedHandler> _handlers = new List<WrappedHandler>();
         public BickleTaskFactory()
         {
-            SetHandler<ExampleElement>((e,explicitly) => new ExecuteElementTask(e.Id, explicitly));
-            SetHandler<ExampleContainerElement>((e, explicitly) => new ExampleContainerTask(e.Id, explicitly));
-            SetHandler<SpecElement>((e, explicitly) => new SpecTask(e.Id, explicitly));
+            AddHandler<ExampleElement>((e,explicitly) => new ExecuteElementTask(e.Id, explicitly));
+            AddHandler<ExampleContainerElement>((e, explicitly) => new ExampleContainerTask(e.Id, explicitly));
+            AddHandler<SpecElement>((e, explicitly) => new SpecTask(e.Id, e.AssemblyLocation, explicitly));
+           
         }
 
-        private void SetHandler<T>(ElementHandler<T> func) where T : UnitTestElement
+        private LoadContextAssemblyTask GetLoadAssemblyTask(SpecElement e)
+        {
+            return new LoadContextAssemblyTask(e.AssemblyLocation);
+        }
+
+        private void AddHandler<T>(ElementHandler<T> func) where T : UnitTestElement
         {
             _handlers.Add((tasks, element, explicitly) =>
                 {
@@ -32,14 +40,21 @@ namespace Bickle.ReSharper.Runner
         {             
             var tasks = new List<UnitTestTask>();
 
-            while (element != null)
+            var current = element;
+            while (current != null)
             {
                 foreach (var handler in _handlers)
                     handler(tasks, element, explicitElements.Contains(element));
 
-                element = element.Parent;
+                current = current.Parent;
             }
 
+            if (element is SpecElement)
+            {
+                tasks.Add(new UnitTestTask(null, GetLoadAssemblyTask((SpecElement)element))); 
+            }
+            tasks.Add(new UnitTestTask(null, new LoadContextAssemblyTask(typeof(Spec).Assembly.Location)));
+           
             tasks.Reverse();
                        
             return tasks;

@@ -7,13 +7,16 @@ namespace Bickle.ReSharper.Provider.Elements
     {
         private readonly Spec _spec;
         private readonly IProject _project;
+        public string AssemblyLocation;
 
         public SpecElement(IUnitTestProvider provider,Spec spec, IProject project) 
             : base(provider, spec, project, null)
         {
             _spec = spec;
             _project = project;
-            Id = _spec.GetType().FullName;
+            var type = _spec.GetType();
+            Id = type.FullName;
+            AssemblyLocation = type.Assembly.Location;
         }
 
         public override string GetTitle()

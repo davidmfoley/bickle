@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Bickle.ReSharper.Runner.Tasks;
 using JetBrains.ReSharper.TaskRunnerFramework;
 
@@ -15,12 +16,22 @@ namespace Bickle.ReSharper.Runner
         private readonly Dictionary<Type,RemoteTaskHandler> _handlers = new Dictionary<Type, RemoteTaskHandler>();
         private ReSharperListener _listener;
         private Spec _currentSpec;
+        private readonly AssemblyLoader _loader = new AssemblyLoader();
 
         public BickleTaskRunner(IRemoteTaskServer server) : base(server)
         {
             SetHandler<ExecuteElementTask>(HandleExecuteElementTask);
             SetHandler<ExampleContainerTask>(HandleElementContainerTask);
             SetHandler<SpecTask>(HandleSpecTask);
+            SetHandler<LoadContextAssemblyTask>(HandleLoadAssemblyTask);
+        }
+
+        private TaskResult HandleLoadAssemblyTask(LoadContextAssemblyTask t, List<TaskExecutionNode> children)
+        {
+            //_loader.RegisterPath(t.AssemblyPath);
+            
+            Dispatch(children);
+            return TaskResult.Success;
         }
 
         private TaskResult HandleElementContainerTask(ExampleContainerTask exampleContainerTask, List<TaskExecutionNode> children)
@@ -31,8 +42,9 @@ namespace Bickle.ReSharper.Runner
         }
 
         private TaskResult HandleSpecTask(SpecTask specTask, List<TaskExecutionNode> children)
-        {           
-            _currentSpec = (Spec) Activator.CreateInstance(Type.GetType(specTask.Id));
+        {
+            var type = Assembly.LoadFrom(specTask.AssemblyLocation).GetType(specTask.Id);
+            _currentSpec = (Spec) Activator.CreateInstance(type);
             
             Dispatch(children);
             return TaskResult.Success;
@@ -42,7 +54,7 @@ namespace Bickle.ReSharper.Runner
         {           
             var example = (Example)_currentSpec.FindExample(executeElementTask.Id);
             example.Execute(_listener);
-            return TaskResult.Success;
+            return _listener.LastResult;
         }
 
         private void SetHandler<T>(RemoteTaskHandler<T> action) where T : RemoteTask

@@ -7,16 +7,18 @@ namespace Bickle.ReSharper.Runner.Tasks
     [Serializable]
     public class SpecTask : BickleRemoteTask, IEquatable<SpecTask>
     {
+        public string AssemblyLocation { get; set; }
 
-
-        public SpecTask(string typeName, bool explicitly)
-            : base(typeName, explicitly)
-        {           
-        }
 
         public SpecTask(XmlElement element)
             : base(element)
-        {           
+        {
+            AssemblyLocation = GetXmlAttribute(element, "AssemblyLocation");
+        }
+
+        public SpecTask(string typeName, string assemblyLocation, bool explicitly) : base(typeName, explicitly)
+        {
+            AssemblyLocation = assemblyLocation;
         }
 
         public override bool Equals(RemoteTask other)
@@ -27,10 +29,15 @@ namespace Bickle.ReSharper.Runner.Tasks
             return false;
         }
 
+        public override void SaveXml(XmlElement element)
+        {
+            SetXmlAttribute(element, "AssemblyLocation", AssemblyLocation);
+            base.SaveXml(element);
+        }
 
         public bool Equals(SpecTask other)
         {
-            return other.Id == Id && other.Explicitly == Explicitly;
+            return other.AssemblyLocation == AssemblyLocation && other.Id == Id && other.Explicitly == Explicitly;
         }
     }
 }
