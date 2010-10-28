@@ -39,7 +39,7 @@ namespace Bickle.Examples
                             Expect(() => 99 <= 100);
                         });
 
-                        Describe("Failures are translated", () =>
+                        Describe("Failures are translated into English", () =>
                         {
                             Specify(() => Foo > 100);
                             Specify(() => Foo == 100);
@@ -63,8 +63,40 @@ namespace Bickle.Examples
                             It("can also contain its", () => false);
                         });
                     });
+
+                    Describe("For each example", () =>
+                    {
+                        var testCases = new[]
+                        {
+                            new TestCase(9, 3), 
+                            new TestCase(64, 8)
+                        };
+
+                        foreach(var testCase in testCases)
+                        {                            
+                            It("should calculate the square root of " + testCase.Input, () =>
+                                GetSquareRoot(testCase.Input) == testCase.Expected);
+                        }
+                    });
                 });
             });
+        }
+
+        private int GetSquareRoot(int input)
+        {
+            return (int)Math.Sqrt(input);
+        }
+    }
+
+    class TestCase
+    {
+        public int Input;
+        public int Expected;
+
+        public TestCase(int input, int expected)
+        {
+            Input = input;
+            Expected = expected;
         }
     }
 }

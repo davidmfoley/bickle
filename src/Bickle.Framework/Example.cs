@@ -3,30 +3,25 @@ using System.Linq.Expressions;
 
 namespace Bickle
 {
-    public class Example
+    public class Example : ExampleNode
     {
         private readonly Action _action;
-        private readonly ExampleContainer _parent;
-        public string Name;
 
-        public Example(string name, Action action, ExampleContainer parent)
+        public Example(string name, Action action, ExampleContainer parent, Spec spec) : base(parent, name, spec)
         {
-            Name = name;
             _action = action;
-            _parent = parent;
         }
 
-        public Example(string name, Expression<Func<bool>> spec, ExampleContainer parent)
+        public Example(string name, Expression<Func<bool>> spec, ExampleContainer parent, Spec containingSpec) : base(parent, name,  containingSpec)
         {
             Name = name;
             _action = BuildAction(spec);
-            _parent = parent;
         }
 
-        public string FullName
-        {
-            get { return _parent.FullName + "\r\n" + Name; }
-        }
+        public Spec Spec;
+
+        
+
 
         private static Action BuildAction(Expression<Func<bool>> spec)
         {

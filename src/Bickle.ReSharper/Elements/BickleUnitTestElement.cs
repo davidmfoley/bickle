@@ -9,8 +9,9 @@ namespace Bickle.ReSharper
     {
         private readonly Spec _spec;
         private readonly IProject _project;
+        public string Id;
 
-        public BickleUnitTestElement(IUnitTestProvider provider,Spec spec, IProject project, UnitTestElement parent) : base(provider, parent)
+        public BickleUnitTestElement(IUnitTestProvider provider, Spec spec, IProject project, UnitTestElement parent) : base(provider, parent)
         {
             _spec = spec;
             _project = project;
@@ -36,12 +37,7 @@ namespace Bickle.ReSharper
         {
             return _project;
         }
-
-        public override string GetTitle()
-        {
-            return _spec.GetType().FullName;
-        }
-
+       
         public override string GetTypeClrName()
         {
             return _spec.GetType().FullName;
@@ -55,6 +51,19 @@ namespace Bickle.ReSharper
         public override string GetKind()
         {
             return "Bickle";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is BickleUnitTestElement)
+                return ((BickleUnitTestElement) obj).Id == Id;
+
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }

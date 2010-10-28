@@ -74,9 +74,12 @@
     <Compile Include="BickleTaskFactory.cs" />
     <Compile Include="BickleTaskRunner.cs" />
     <Compile Include="BickleTestProvider.cs" />
-    <Compile Include="BickleUnitTestElement.cs" />
+    <Compile Include="Elements\BickleUnitTestElement.cs" />
+    <Compile Include="ElementFactory.cs" />
+    <Compile Include="Elements\ExampleContainerElement.cs" />
+    <Compile Include="Elements\ExampleElement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecElement.cs" />
+    <Compile Include="Elements\SpecElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bickle.Framework\Bickle.Framework.csproj">

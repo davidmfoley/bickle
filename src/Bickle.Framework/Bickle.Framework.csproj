@@ -43,6 +43,7 @@
     <Compile Include="AssertionException.cs" />
     <Compile Include="ColorConsoleListener.cs" />
     <Compile Include="ConsoleListener.cs" />
+    <Compile Include="ExampleNode.cs" />
     <Compile Include="InactiveExampleContainer.cs" />
     <Compile Include="ITestResultListener.cs" />
     <Compile Include="Spec.cs" />

@@ -4,7 +4,7 @@ namespace Bickle
 {
     public class ActiveExampleContainer : ExampleContainer
     {
-        public ActiveExampleContainer(string name, ExampleContainer parent) : base(name, parent)
+        public ActiveExampleContainer(string name, ExampleContainer parent, Spec spec) : base(name, parent, spec)
         {
         }
 

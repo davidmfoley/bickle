@@ -2,7 +2,7 @@
 {
     public class InactiveExampleContainer : ExampleContainer
     {
-        public InactiveExampleContainer(string name, ExampleContainer parent) : base(name, parent)
+        public InactiveExampleContainer(string name, ExampleContainer parent, Spec spec) : base(name, parent, spec)
         {
         }
 

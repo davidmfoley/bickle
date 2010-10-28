@@ -4,21 +4,18 @@ using System.Linq;
 
 namespace Bickle
 {
-    public abstract class ExampleContainer
-    {
+    public abstract class ExampleContainer : ExampleNode
+    {        
         private readonly List<ExampleContainer> _describes = new List<ExampleContainer>();
         private readonly List<Example> _its = new List<Example>();
-        private readonly ExampleContainer _parent;
+
         public Action After = () => { };
         public Action Before = () => { };
 
-        protected ExampleContainer(string name, ExampleContainer parent)
+        protected ExampleContainer(string name, ExampleContainer parent, Spec spec) : base(parent, name, spec)
         {
-            _parent = parent;
-            Name = name;
+            Spec = spec;
         }
-
-        public string Name { get; set; }
 
         public Example[] Examples
         {
@@ -30,15 +27,13 @@ namespace Bickle
             get { return _describes.ToArray(); }
         }
 
-        public string FullName
-        {
-            get { return (_parent != null ? _parent.FullName + "\r\n" : "") + Name; }
-        }
-
+        public Spec Spec;
+   
         public abstract void Execute(ITestResultListener listener);
 
         public void AddIt(Example example)
         {
+            example.Id = this.Id + "/" + _its.Count.ToString("000");
             _its.Add(example);
         }
 
@@ -49,18 +44,18 @@ namespace Bickle
 
         protected IEnumerable<Action> GetBefores()
         {
-            if (_parent == null)
+            if (Parent == null)
                 return new[] {Before};
 
-            return new[] {Before}.Union(_parent.GetBefores());
+            return new[] {Before}.Union(Parent.GetBefores());
         }
 
         protected IEnumerable<Action> GetAfters()
         {
-            if (_parent == null)
+            if (Parent == null)
                 return new[] {After};
 
-            return (new[] {After}.Union(_parent.GetAfters())).Reverse();
+            return (new[] {After}.Union(Parent.GetAfters())).Reverse();
         }
     }
 }

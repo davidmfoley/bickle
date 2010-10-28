@@ -18,11 +18,16 @@ namespace Bickle.ReSharper
     [UnitTestProvider]
     public class BickleTestProvider : IUnitTestProvider
     {
-        private BickleAssemblyExplorer _assemblyExplorer;
-        private BickleElementPresenter _presenter;
-        private BickleElementComparer _comparer;
-        private BickleTaskFactory _taskFactory;
+        private readonly BickleAssemblyExplorer _assemblyExplorer;
+        private readonly BickleElementPresenter _presenter = new BickleElementPresenter();
+        private readonly BickleElementComparer _comparer =  new BickleElementComparer();
+        private readonly BickleTaskFactory _taskFactory = new BickleTaskFactory();
 
+
+        public BickleTestProvider()
+        {
+            _assemblyExplorer = new BickleAssemblyExplorer(this);
+        }
 
         public ProviderCustomOptionsControl GetCustomOptionsControl(ISolution solution)
         {
@@ -57,7 +62,7 @@ namespace Bickle.ReSharper
 
         public string Name
         {
-            get { return "StorEvil runner"; }
+            get { return "Bickle runner"; }
         }
 
         public System.Drawing.Image Icon

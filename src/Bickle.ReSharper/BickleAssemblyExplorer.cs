@@ -18,17 +18,23 @@ namespace Bickle.ReSharper
 
         public void ExploreAssembly(IMetadataAssembly assembly, IProject project, UnitTestElementConsumer consumer)
         {
-            var a = Assembly.Load(assembly.Location);
+            var a = Assembly.LoadFrom(assembly.Location);
             var specTypes = FilterToSpecs(a.GetTypes());
+
+            var elementFactory = new ElementFactory(project, consumer, _provider);
 
             foreach (var type in specTypes)
             {
                 var spec = (Spec)Activator.CreateInstance(type);
-                consumer(new SpecElement(_provider, spec, project));
+               
+                elementFactory.CreateContainerElements(spec);
+
+                
             }
            
         }
 
+       
         private IEnumerable<Type> FilterToSpecs(Type[] getTypes)
         {
             foreach (var metadataTypeInfo in getTypes)

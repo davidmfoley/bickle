@@ -2,6 +2,6 @@
 {
     public class BickleTaskRunner
     {
-        public static string RunnerId;
+        public static string RunnerId = "Bickle";
     }
 }

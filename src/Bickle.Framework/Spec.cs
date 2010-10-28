@@ -5,8 +5,9 @@ using System.Runtime.Serialization;
 
 namespace Bickle
 {
-    public class Spec
+    public class Spec 
     {
+
         private readonly Stack<ExampleContainer> _describeStack = new Stack<ExampleContainer>();
         private readonly List<ExampleContainer> _describes = new List<ExampleContainer>();
 
@@ -17,7 +18,7 @@ namespace Bickle
 
         protected void Ignore(string area, Action spec)
         {
-            var describe = new InactiveExampleContainer(area, CurrentDescribe());
+            var describe = new InactiveExampleContainer(area, CurrentDescribe(), this);
             RunDescribe(spec, describe);
         }
 
@@ -28,7 +29,7 @@ namespace Bickle
 
         protected void Describe(string area, Action spec)
         {
-            var describe = new ActiveExampleContainer(area, CurrentDescribe());
+            var describe = new ActiveExampleContainer(area, CurrentDescribe(), this);
             RunDescribe(spec, describe);
         }
 
@@ -44,22 +45,22 @@ namespace Bickle
 
         protected void It(string area, Action spec)
         {
-            CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe()));
+            CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe(), this));
         }
 
         protected void It(string area, Expression<Func<bool>> spec)
         {
-            CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe()));
+            CurrentDescribe().AddIt(new Example(area, spec, CurrentDescribe(), this));
         }
 
         protected void Expect(Expression<Func<bool>> spec)
         {
-            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe()));
+            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe(), this));
         }
 
         protected void Specify(Expression<Func<bool>> spec)
         {
-            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe()));
+            CurrentDescribe().AddIt(new Example(SpecDescriber.DescribeSpec(spec), Wrap(spec), CurrentDescribe(), this));
         }
 
 
@@ -81,10 +82,12 @@ namespace Bickle
         {
             if (CurrentDescribeExists())
             {
+                exampleContainer.Id = CurrentDescribe().Id + "/" +  CurrentDescribe().ExampleContainers.Length.ToString("000");
                 CurrentDescribe().AddDescribe(exampleContainer);
             }
             else
             {
+                exampleContainer.Id = GetType().FullName + "/" + _describes.Count.ToString("000");
                 _describes.Add(exampleContainer);
             }
 

@@ -1,4 +1,5 @@
-﻿using JetBrains.ProjectModel;
+﻿using System;
+using JetBrains.ProjectModel;
 using JetBrains.ReSharper.UnitTestFramework;
 
 namespace Bickle.ReSharper
@@ -13,8 +14,14 @@ namespace Bickle.ReSharper
         {
             _spec = spec;
             _project = project;
+            Id = _spec.GetType().FullName;
         }
-       
+
+        public override string GetTitle()
+        {
+            return ShortName;
+        }
+
         public override string ShortName
         {
             get { return _spec.GetType().Name; }
