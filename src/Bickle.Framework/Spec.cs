@@ -125,7 +125,7 @@ namespace Bickle
             }
         }
 
-        public object FindExample(string id)
+        public object Find(string id)
         {
 
             return _idMap[id];

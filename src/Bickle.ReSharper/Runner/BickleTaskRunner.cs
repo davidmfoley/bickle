@@ -35,10 +35,11 @@ namespace Bickle.ReSharper.Runner
         }
 
         private TaskResult HandleElementContainerTask(ExampleContainerTask exampleContainerTask, List<TaskExecutionNode> children)
-        {
-            
-           Dispatch(children);
-           return TaskResult.Success;
+        {            
+            Dispatch(children);
+            var container = (ExampleContainer)_currentSpec.Find(exampleContainerTask.Id);
+
+            return container.IsIgnored() ? TaskResult.Skipped : TaskResult.Success;
         }
 
         private TaskResult HandleSpecTask(SpecTask specTask, List<TaskExecutionNode> children)
@@ -52,7 +53,7 @@ namespace Bickle.ReSharper.Runner
 
         private TaskResult HandleExecuteElementTask(ExecuteElementTask executeElementTask, List<TaskExecutionNode> children)
         {           
-            var example = (Example)_currentSpec.FindExample(executeElementTask.Id);
+            var example = (Example)_currentSpec.Find(executeElementTask.Id);
             example.Execute(_listener);
             return _listener.LastResult;
         }

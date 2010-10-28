@@ -43,6 +43,11 @@ namespace Bickle
         {
             try
             {
+                if (IsIgnored())
+                {
+                    listener.Ignored(this);
+                    return;
+                }
                 _action();
                 listener.Success(this);
             }
@@ -55,5 +60,7 @@ namespace Bickle
                 listener.Failed(this, ex);
             }
         }
+
+        
     }
 }
