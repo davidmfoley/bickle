@@ -30,11 +30,12 @@ namespace Bickle.ReSharper
             {
                 var element = new ExampleContainerElement(_provider, _project, parent, exampleContainer);
                 _consumer(element);
+                
+                CreateContainerElements(exampleContainer.ExampleContainers, element);
 
                 foreach (var example in exampleContainer.Examples)
                     _consumer(new ExampleElement(_provider, element, _project, example));
 
-                CreateContainerElements(exampleContainer.ExampleContainers, element);
             }
         }
     }

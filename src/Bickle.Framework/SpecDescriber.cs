@@ -80,9 +80,9 @@ namespace Bickle
 
         private static string ExtractOperator(BinaryExpression binary)
         {
-            string op = Regex.Match(binary.ToString(), " (=|!=|<=|>=|<|>) ").Groups[1].Value;
+            string op = Regex.Match(binary.ToString(), " (==|!=|<=|>=|<|>) ").Groups[1].Value;
 
-            if (op == "=")
+            if (op == "==")
                 return "should equal";
             if (op == "!=")
                 return "should not equal";
