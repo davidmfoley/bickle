@@ -9,6 +9,9 @@ namespace Bickle
     {
         public static string DescribeSpec(Expression<Func<bool>> spec)
         {
+            if (spec.Body is ConstantExpression)
+                return "(" + ((ConstantExpression) spec.Body).Value + ")";
+
             if (!(spec.Body is BinaryExpression))
                 return "(no more info)";
 

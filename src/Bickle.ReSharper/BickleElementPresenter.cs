@@ -9,7 +9,7 @@ namespace Bickle.ReSharper
     {
         public void Present(UnitTestElement element, IPresentableItem item, TreeModelNode node, PresentationState state)
         {
-            
+            item.RichText = element.GetTitle();
         }
     }
 }

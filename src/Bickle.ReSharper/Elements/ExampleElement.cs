@@ -10,7 +10,7 @@ namespace Bickle.ReSharper
 
         public ExampleElement(BickleTestProvider provider, UnitTestElement parent, IProject project, Example example) : base(provider, example.Spec, project, parent)
         {
-            _shortName = example.FullName;
+            _shortName = example.Name;
             Id = example.Id;
         }
 
