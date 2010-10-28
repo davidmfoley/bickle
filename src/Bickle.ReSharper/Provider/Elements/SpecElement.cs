@@ -1,8 +1,7 @@
-﻿using System;
-using JetBrains.ProjectModel;
+﻿using JetBrains.ProjectModel;
 using JetBrains.ReSharper.UnitTestFramework;
 
-namespace Bickle.ReSharper
+namespace Bickle.ReSharper.Provider.Elements
 {
     public class SpecElement : BickleUnitTestElement
     {

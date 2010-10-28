@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Bickle.ReSharper.Provider;
+using Bickle.ReSharper.Runner;
 using JetBrains.Application;
 using JetBrains.CommonControls;
 using JetBrains.Metadata.Reader.API;
@@ -20,7 +22,6 @@ namespace Bickle.ReSharper
     {
         private readonly BickleAssemblyExplorer _assemblyExplorer;
         private readonly BickleElementPresenter _presenter = new BickleElementPresenter();
-        private readonly BickleElementComparer _comparer =  new BickleElementComparer();
         private readonly BickleTaskFactory _taskFactory = new BickleTaskFactory();
 
 
@@ -52,7 +53,7 @@ namespace Bickle.ReSharper
 
         public int CompareUnitTestElements(UnitTestElement x, UnitTestElement y)
         {
-            return _comparer.CompareUnitTestElements(x, y);
+            return 0;
         }
 
         public string ID
@@ -88,7 +89,7 @@ namespace Bickle.ReSharper
 
         public bool IsElementOfKind(IDeclaredElement declaredElement, UnitTestElementKind elementKind)
         {
-            return _comparer.IsDeclaredElementOfKind(declaredElement, elementKind);
+            return false;
         }
 
         public void ExploreFile(IFile psiFile, UnitTestElementLocationConsumer consumer, CheckForInterrupt interrupted)

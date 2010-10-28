@@ -5,7 +5,7 @@ using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.UnitTestFramework;
 
-namespace Bickle.ReSharper
+namespace Bickle.ReSharper.Provider
 {
     public class BickleAssemblyExplorer
     {

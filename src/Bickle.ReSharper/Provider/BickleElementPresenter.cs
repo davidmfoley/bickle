@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using Bickle.ReSharper.Provider.Elements;
 using JetBrains.CommonControls;
 using JetBrains.ReSharper.UnitTestFramework;
 using JetBrains.ReSharper.UnitTestFramework.UI;

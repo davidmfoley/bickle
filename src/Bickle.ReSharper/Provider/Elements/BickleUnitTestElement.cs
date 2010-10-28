@@ -3,7 +3,7 @@ using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;
 
-namespace Bickle.ReSharper
+namespace Bickle.ReSharper.Provider.Elements
 {
     public abstract class BickleUnitTestElement : UnitTestElement
     {

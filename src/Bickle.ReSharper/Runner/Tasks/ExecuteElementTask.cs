@@ -1,24 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml;
+using Bickle.ReSharper.Runner;
 using JetBrains.ReSharper.TaskRunnerFramework;
-using JetBrains.ReSharper.UnitTestFramework;
 
-namespace Bickle.ReSharper
+namespace Bickle.ReSharper.Tasks
 {
-    internal class BickleTaskFactory
-    {
-        public IList<UnitTestTask> GetTasks(UnitTestElement element, IList<UnitTestElement> explicitElements)
-        {
-             
-            var tasks = new List<UnitTestTask>();
-            var example = element as ExampleElement;
-            if (example != null)
-                tasks.Add(new UnitTestTask(null, new  ExecuteElementTask(example.Id)));
-            return tasks;
-        }
-    }
-
     [Serializable]
     public class ExecuteElementTask : RemoteTask
     {

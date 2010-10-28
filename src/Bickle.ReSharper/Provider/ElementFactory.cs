@@ -1,4 +1,5 @@
-﻿using JetBrains.ProjectModel;
+﻿using Bickle.ReSharper.Provider.Elements;
+using JetBrains.ProjectModel;
 using JetBrains.ReSharper.UnitTestFramework;
 
 namespace Bickle.ReSharper

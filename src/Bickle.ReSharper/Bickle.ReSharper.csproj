@@ -59,7 +59,6 @@
       <HintPath>..\..\lib\JetBrains\JetBrains.ReSharper.VS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -68,18 +67,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BickleAssemblyExplorer.cs" />
-    <Compile Include="BickleElementComparer.cs" />
-    <Compile Include="BickleElementPresenter.cs" />
-    <Compile Include="BickleTaskFactory.cs" />
-    <Compile Include="BickleTaskRunner.cs" />
-    <Compile Include="BickleTestProvider.cs" />
-    <Compile Include="Elements\BickleUnitTestElement.cs" />
-    <Compile Include="ElementFactory.cs" />
-    <Compile Include="Elements\ExampleContainerElement.cs" />
-    <Compile Include="Elements\ExampleElement.cs" />
+    <Compile Include="Provider\BickleAssemblyExplorer.cs" />
+    <Compile Include="Provider\BickleElementPresenter.cs" />
+    <Compile Include="Runner\BickleTaskFactory.cs" />
+    <Compile Include="Runner\BickleTaskRunner.cs" />
+    <Compile Include="Provider\BickleTestProvider.cs" />
+    <Compile Include="Runner\ReSharperListener.cs" />
+    <Compile Include="Runner\Tasks\ElementContainerTask.cs" />
+    <Compile Include="Provider\Elements\BickleUnitTestElement.cs" />
+    <Compile Include="Provider\ElementFactory.cs" />
+    <Compile Include="Provider\Elements\ExampleContainerElement.cs" />
+    <Compile Include="Provider\Elements\ExampleElement.cs" />
+    <Compile Include="Runner\Tasks\SpecTask.cs" />
+    <Compile Include="Runner\Tasks\ExecuteElementTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Elements\SpecElement.cs" />
+    <Compile Include="Provider\Elements\SpecElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bickle.Framework\Bickle.Framework.csproj">
