@@ -5,11 +5,11 @@ namespace Bickle.ReSharper.Provider.Elements
 {
     public class SpecElement : BickleUnitTestElement
     {
-        private readonly Spec _spec;
+        private readonly ISpec _spec;
         private readonly IProject _project;
         public string AssemblyLocation;
 
-        public SpecElement(IUnitTestProvider provider,Spec spec, IProject project) 
+        public SpecElement(IUnitTestProvider provider, ISpec spec, IProject project) 
             : base(provider, spec, project, null)
         {
             _spec = spec;

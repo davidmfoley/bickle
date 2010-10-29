@@ -12,11 +12,11 @@ namespace Bickle.ReSharper.Provider.Elements
 {
     public abstract class BickleUnitTestElement : UnitTestElement
     {
-        private readonly Spec _spec;
+        private readonly ISpec _spec;
         private readonly IProject _project;
         public string Id;
 
-        public BickleUnitTestElement(IUnitTestProvider provider, Spec spec, IProject project, UnitTestElement parent) : base(provider, parent)
+        public BickleUnitTestElement(IUnitTestProvider provider, ISpec spec, IProject project, UnitTestElement parent) : base(provider, parent)
         {
             _spec = spec;
             _project = project;

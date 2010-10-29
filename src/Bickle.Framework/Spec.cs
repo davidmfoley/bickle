@@ -142,6 +142,11 @@ namespace Bickle
             return !ExampleContainers.Any(x=>!x.IsIgnored());
         }
 
+        public ISpec ContainingSpec
+        {
+            get { return this; }
+        }
+
         public IExampleContainer[] ExampleContainers
         {
             get {  return _describes.ToArray(); }

@@ -37,7 +37,7 @@ namespace Bickle.ReflectionWrapping
 
         private IExampleContainer WrapContainer(object o)
         {
-            return new ExampleContainerWrapper(o);
+            return new ExampleContainerWrapper(o, this);
         }
 
         public string Name
@@ -48,6 +48,11 @@ namespace Bickle.ReflectionWrapping
         public bool IsIgnored()
         {
             return (bool)_inner.InvokeWithReflection("IsIgnored");
+        }
+
+        public ISpec ContainingSpec
+        {
+            get { return this; }
         }
 
         public IExampleContainer[] ExampleContainers

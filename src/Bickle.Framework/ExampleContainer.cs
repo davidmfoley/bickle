@@ -15,13 +15,14 @@ namespace Bickle
         protected ExampleContainer(string name, ExampleContainer parent, Spec spec)
             : base(parent, name, spec)
         {
-            Spec = spec;
+            ContainingSpec = spec;
         }
 
         public IExample[] Examples
         {
             get { return _its.Cast<IExample>().ToArray(); }
         }
+
 
         public IExampleContainer[] ExampleContainers
         {

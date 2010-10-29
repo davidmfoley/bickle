@@ -6,5 +6,6 @@
         void Execute(ITestResultListener listener);
         string Name { get; }
         bool IsIgnored();
+        ISpec ContainingSpec { get; }
     }
 }

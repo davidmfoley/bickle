@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Bickle.Utility;
 
 namespace Bickle.ReflectionWrapping
@@ -7,9 +8,10 @@ namespace Bickle.ReflectionWrapping
     {
         private readonly object _inner;
 
-        public ExampleContainerWrapper(object inner)
+        public ExampleContainerWrapper(object inner, ISpec spec)
         {
             _inner = inner;
+            ContainingSpec = spec;
         }
 
         public IExampleContainer[] ExampleContainers
@@ -19,7 +21,7 @@ namespace Bickle.ReflectionWrapping
                 return
                     ((object[])_inner
                                    .GetPropertyWithReflection("ExampleContainers"))
-                        .Select(c => new ExampleContainerWrapper(c))
+                        .Select(c => new ExampleContainerWrapper(c, ContainingSpec))
                         .ToArray();
             }
         }
@@ -31,10 +33,12 @@ namespace Bickle.ReflectionWrapping
                 return
                     ((object[])_inner
                                    .GetPropertyWithReflection("Examples"))
-                        .Select(c => new ExampleWrapper(c))
+                        .Select(c => new ExampleWrapper(c, this.ContainingSpec))
                         .ToArray();
             }
         }
+
+        public ISpec ContainingSpec { get; set; }
 
         public string Id
         {

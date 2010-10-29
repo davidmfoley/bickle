@@ -17,7 +17,7 @@ namespace Bickle.ReSharper
             _provider = provider;
         }
 
-        public void CreateContainerElements(Spec spec)
+        public void CreateContainerElements(ISpec spec)
         {
             var specElement = new SpecElement(_provider, spec, _project);
             _consumer(specElement);

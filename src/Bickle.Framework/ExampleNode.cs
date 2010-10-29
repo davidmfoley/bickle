@@ -10,13 +10,13 @@ namespace Bickle
         public string Name { get; set; }
         public abstract bool IsIgnored();
 
-        public Spec Spec { get; set; }
+        public ISpec ContainingSpec { get; set; }
 
         protected ExampleNode(ExampleContainer parent, string name, Spec spec)
         {
             Parent = parent;
             Name = name;
-            Spec = spec;
+            ContainingSpec = spec;
         }
 
         public string FullName

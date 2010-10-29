@@ -4,6 +4,6 @@
     {
         IExampleContainer[] ExampleContainers { get;  }
         IExample[] Examples { get; }
-       
+      
     }
 }

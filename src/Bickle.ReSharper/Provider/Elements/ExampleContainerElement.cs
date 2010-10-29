@@ -7,8 +7,8 @@ namespace Bickle.ReSharper.Provider.Elements
     {
         private string _shortName;
 
-        public ExampleContainerElement(IUnitTestProvider provider, IProject project, UnitTestElement parent, ExampleContainer container) 
-            : base(provider, container.Spec, project, parent)
+        public ExampleContainerElement(IUnitTestProvider provider, IProject project, UnitTestElement parent, IExampleContainer container) 
+            : base(provider, container.ContainingSpec, project, parent)
         {
             _shortName = container.Name;
             Id = container.Id;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Bickle.ReflectionWrapping;
 using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.UnitTestFramework;
@@ -25,11 +26,11 @@ namespace Bickle.ReSharper.Provider
 
             foreach (var type in specTypes)
             {
-                var spec = (Spec)Activator.CreateInstance(type);
-               
-                elementFactory.CreateContainerElements(spec);
-
+                var instance = Activator.CreateInstance(type);
                 
+                var spec = (instance is ISpec) ?  (ISpec)instance : new SpecWrapper(instance);
+               
+                elementFactory.CreateContainerElements(spec);                
             }
            
         }
@@ -46,7 +47,13 @@ namespace Bickle.ReSharper.Provider
 
         private bool IsSpec(Type t)
         {
-            return t.IsSubclassOf(typeof (Spec));
+
+            foreach (var i in t.GetInterfaces())
+            {
+                if (i.FullName == typeof(ISpec).FullName)
+                    return true;
+            }
+            return false;
         }
     }
 }
