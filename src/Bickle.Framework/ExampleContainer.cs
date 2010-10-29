@@ -29,9 +29,6 @@ namespace Bickle
         }
 
 
-
-        public abstract void Execute(ITestResultListener listener);
-
         public void AddIt(Example example)
         {
             example.Id = Id + "/example" + _its.Count.ToString("000");

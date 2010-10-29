@@ -14,28 +14,28 @@ namespace Bickle
 
         #region ITestResultListener Members
 
-        public void Success(Example example)
+        public void Success(IExample example)
         {
             _totalCount++;
             Write(MessageType.Succeeded, ".");
             _successCount++;
         }
 
-        public void Ignored(Example example)
+        public void Ignored(IExample example)
         {
             _totalCount++;
             Write(MessageType.Ignored, "I");
             _ignored.Add((_ignored.Count + 1) + ") Ignored: " + example.FullName);
         }
 
-        public void Failed(Example example, Exception exception)
+        public void Failed(IExample example, Exception exception)
         {
             _totalCount++;
             Write(MessageType.Failure, "F");
             _failures.Add(CreateFailureMessage(example, exception));
         }
 
-        public void Pending(Example example)
+        public void Pending(IExample example)
         {
             _totalCount++;
             Write(MessageType.Pending, "P");
@@ -75,7 +75,7 @@ namespace Bickle
             Write(messageType, message + "\r\n");
         }
 
-        private string CreateFailureMessage(Example example, Exception exception)
+        private string CreateFailureMessage(IExample example, Exception exception)
         {
             const string fmt =
                 @"{0}) Failed: {1}

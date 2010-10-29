@@ -4,10 +4,10 @@ namespace Bickle
 {
     public interface ITestResultListener
     {
-        void Failed(Example example, Exception exception);
-        void Success(Example example);
+        void Failed(IExample example, Exception exception);
+        void Success(IExample example);
         void Finished();
-        void Pending(Example example);
-        void Ignored(Example example);
+        void Pending(IExample example);
+        void Ignored(IExample example);
     }
 }

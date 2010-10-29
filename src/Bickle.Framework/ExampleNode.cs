@@ -6,6 +6,7 @@ namespace Bickle
     public abstract class ExampleNode : IExampleNode
     {
         public ExampleContainer Parent { get; set; }
+        public abstract void Execute(ITestResultListener listener);
         public string Name { get; set; }
         public abstract bool IsIgnored();
 

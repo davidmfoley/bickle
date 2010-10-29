@@ -45,6 +45,7 @@
     <Compile Include="AssertionHelpers.cs" />
     <Compile Include="Describing_a_spec.cs" />
     <Compile Include="Executing_examples.cs" />
+    <Compile Include="FakeResultListener.cs" />
     <Compile Include="nested_describe.cs" />
     <Compile Include="single_describe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

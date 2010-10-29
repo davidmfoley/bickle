@@ -12,7 +12,7 @@ namespace Bickle.ReSharper.Runner
             _server = server;
         }
 
-        public void Failed(Example example, Exception exception)
+        public void Failed(IExample example, Exception exception)
         {
             LastResult = TaskResult.Exception;
             _server.TaskOutput(CurrentTask, "Failed:", TaskOutputType.STDERR);
@@ -24,7 +24,7 @@ namespace Bickle.ReSharper.Runner
 
         public TaskResult LastResult { get; set; }
 
-        public void Success(Example example)
+        public void Success(IExample example)
         {
             LastResult = TaskResult.Success;
             _server.TaskFinished(CurrentTask, "" , TaskResult.Success);  
@@ -35,13 +35,13 @@ namespace Bickle.ReSharper.Runner
                 
         }
 
-        public void Pending(Example example)
+        public void Pending(IExample example)
         {
             LastResult = TaskResult.Skipped;
             _server.TaskFinished(CurrentTask, "Pending", TaskResult.Skipped);  
         }
 
-        public void Ignored(Example example)
+        public void Ignored(IExample example)
         {
             LastResult = TaskResult.Skipped;
             _server.TaskFinished(CurrentTask, "Ignored", TaskResult.Skipped);  

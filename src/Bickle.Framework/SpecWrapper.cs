@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Bickle;
 
 namespace Bickle
@@ -7,11 +10,31 @@ namespace Bickle
     public class SpecWrapper : ISpec
     {
         private object _inner;
+        private Dictionary<string, IExampleNode> _idMap = new Dictionary<string, IExampleNode>();
 
         public SpecWrapper(Object spec)
         {
             _inner = spec;
-        }        
+            BuildIdMap();
+        }
+
+        private void BuildIdMap()
+        {
+            foreach (var exampleContainer in ExampleContainers)
+            {
+                AddToIdMap(exampleContainer);
+            }
+        }
+
+        private void AddToIdMap(IExampleContainer exampleContainer)
+        {
+            _idMap.Add(exampleContainer.Id, exampleContainer);
+            foreach (var example in exampleContainer.Examples)
+                _idMap.Add(example.Id, example);
+
+            foreach (var child in exampleContainer.ExampleContainers)
+                AddToIdMap(child);
+        }
 
         private IExampleContainer WrapContainer(object o)
         {
@@ -36,88 +59,55 @@ namespace Bickle
                 return containers.Select(WrapContainer).ToArray();
             }
         }
-    }
 
-    public class ExampleContainerWrapper : IExampleContainer
-    {
-        private readonly object _inner;
-
-        public ExampleContainerWrapper(object inner) 
+        public string Id
         {
-            _inner = inner;
+            get { return (string)_inner.GetPropertyWithReflection("Id"); }
         }
 
-
-        public IExampleContainer[] ExampleContainers
+        public void Execute(ITestResultListener listener)
         {
-            get
+            var wrappedListenerType = GetListenerWrapperType();
+
+            var wrappedListener = Activator.CreateInstance(wrappedListenerType, new object[] { listener, new ExampleTranslator(this)});
+            _inner.InvokeWithReflection("Execute", wrappedListener);
+        }
+
+        private Type GetListenerWrapperType()
+        {
+            var assembly = _inner.GetType().Assembly;
+            foreach (var source in GetAssemblies())
             {
-                return
-                    ((object[]) _inner
-                        .GetPropertyWithReflection("ExampleContainers"))
-                        .Select(c => new ExampleContainerWrapper(c))
-                        .ToArray();
+                var wrappedListenerType = source.GetType(typeof(ListenerWrapper).FullName);
+                if (wrappedListenerType != null)
+                    return wrappedListenerType;
             }
+
+            return null;
+
         }
 
-        public IExample[] Examples
+        private IEnumerable<Assembly> GetAssemblies()
         {
-            get
+            var assembly = _inner.GetType().Assembly;
+            yield return  assembly;
+            foreach (var referencedAssembly in assembly.GetReferencedAssemblies())
             {
-                return
-                ((object[])_inner
-                    .GetPropertyWithReflection("Examples"))
-                    .Select(c => new ExampleWrapper(c))
-                    .ToArray();
+                yield return Assembly.Load(referencedAssembly);
             }
+               
         }
 
-        public string Name
+        private object ExampleTranslate(object ex)
         {
-            get { return (string) _inner.GetPropertyWithReflection("Name"); }
+            var id = (string) ex.GetPropertyWithReflection("Id");
+            return Find(id);
         }
 
-        public bool IsIgnored()
+        public IExampleNode Find(string id)
         {
-            return (bool) _inner.InvokeWithReflection("IsIgnored");
+            return _idMap[id];
         }
     }
 
-    public class ExampleWrapper : IExample
-    {
-        private object _inner;
-
-        public ExampleWrapper(object o)
-        {
-            _inner = o;
-        }
-
-        public void Action()
-        {
-            _inner.InvokeWithReflection("Action");
-        }
-
-        public string Name
-        {
-            get { return (string)_inner.GetPropertyWithReflection("Name"); }
-        }
-
-        public bool IsIgnored()
-        {
-            return (bool)_inner.InvokeWithReflection("IsIgnored");
-        }
-    }
-
-    public static class ReflectionExtensions
-    {
-        public static object InvokeWithReflection(this object target, string method, params object[] parameters)
-        {
-            return target.GetType().GetMethod(method).Invoke(target, parameters);
-        }
-
-        public static object GetPropertyWithReflection(this object target, string prop)
-        {
-            return target.GetType().GetProperty(prop).GetValue(target, null);
-        }
-    }
 }

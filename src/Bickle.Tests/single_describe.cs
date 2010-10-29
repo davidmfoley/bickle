@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Bickle.Tests
 {
@@ -55,43 +53,6 @@ namespace Bickle.Tests
             SingleDescribe.AfterWasCalled = false;
             ExampleContainers[0].After();
             SingleDescribe.AfterWasCalled.ShouldBe(true);
-        }
-    }
-
-    public class FakeResultListener : ITestResultListener
-    {
-        public List<string> Calls = new List<string>();
-
-        #region ITestResultListener Members
-
-        public void Failed(Example example, Exception exception)
-        {
-            Calls.Add("Failed - " + example.FullName + " - " + exception.GetType().Name);
-        }
-
-        public void Success(Example example)
-        {
-            Calls.Add("Success - " + example.FullName);
-        }
-
-        public void Finished()
-        {
-        }
-
-        public void Pending(Example example)
-        {
-            Calls.Add("Pending - " + example.FullName);
-        }
-
-        public void Ignored(Example example)
-        {
-            Calls.Add("Ignored - " + example.FullName);
-        }
-
-        #endregion
-
-        public void Running(Example example)
-        {
         }
     }
 }

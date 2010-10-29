@@ -10,7 +10,7 @@ namespace Bickle
 
         private readonly Stack<IExampleContainer> _describeStack = new Stack<IExampleContainer>();
         private readonly List<IExampleContainer> _describes = new List<IExampleContainer>();
-        private Dictionary<string, object> _idMap = new Dictionary<string, object>();
+        private Dictionary<string, IExampleNode> _idMap = new Dictionary<string, IExampleNode>();
 
         public static void Pending()
         {
@@ -112,7 +112,12 @@ namespace Bickle
             return _describeStack.Count > 0;
         }
 
-       
+
+        public string Id
+        {
+            get { return GetType().FullName; }
+        }
+
         public void Execute(ITestResultListener listener)
         {
             foreach (ExampleContainer describe in _describes)
@@ -121,7 +126,7 @@ namespace Bickle
             }
         }
 
-        public object Find(string id)
+        public IExampleNode Find(string id)
         {
 
             return _idMap[id];

@@ -84,7 +84,18 @@ namespace Bickle.Tests
             ExampleContainers[0].Name.ShouldBe("Foo");
         }
 
-        
+        [Test]
+        public void can_execute()
+        {
+            var spec = new NestedDescribe();
+
+            var specWrapper = new SpecWrapper(spec);
+
+            specWrapper.Execute(new FakeResultListener());
+
+            var expected = new[] { "OuterBefore", "InnerBefore", "It", "InnerAfter", "OuterAfter" };
+            Assert.That(spec.Events, Is.EquivalentTo(expected));
+        }
     }
 
 

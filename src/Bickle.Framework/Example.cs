@@ -36,7 +36,7 @@ namespace Bickle
             _action();
         }
 
-        public void Execute(ITestResultListener listener)
+        public override void Execute(ITestResultListener listener)
         {
             try
             {
