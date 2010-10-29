@@ -38,7 +38,7 @@ namespace Bickle.ReflectionWrapping
             }
         }
 
-        public ISpec ContainingSpec { get; set; }
+        public ISpec ContainingSpec { get; private set; }
 
         public string Id
         {
@@ -47,7 +47,7 @@ namespace Bickle.ReflectionWrapping
 
         public void Execute(ITestResultListener listener)
         {
-
+             _inner.InvokeWithReflection("Execute", ListenerWrapper.GetWrapperForTargetType(_inner.GetType(), listener, ContainingSpec));
         }
 
         public string Name

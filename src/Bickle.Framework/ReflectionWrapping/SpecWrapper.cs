@@ -71,41 +71,8 @@ namespace Bickle.ReflectionWrapping
 
         public void Execute(ITestResultListener listener)
         {
-            var wrappedListenerType = GetListenerWrapperType();
-
-            var wrappedListener = Activator.CreateInstance(wrappedListenerType, new object[] { listener, new ExampleTranslator(this)});
+            var wrappedListener = ListenerWrapper.GetWrapperForTargetType(_inner.GetType(),listener, this);
             _inner.InvokeWithReflection("Execute", wrappedListener);
-        }
-
-        private Type GetListenerWrapperType()
-        {
-            var assembly = _inner.GetType().Assembly;
-            foreach (var source in GetAssemblies())
-            {
-                var wrappedListenerType = source.GetType(typeof(ListenerWrapper).FullName);
-                if (wrappedListenerType != null)
-                    return wrappedListenerType;
-            }
-
-            return null;
-
-        }
-
-        private IEnumerable<Assembly> GetAssemblies()
-        {
-            var assembly = _inner.GetType().Assembly;
-            yield return  assembly;
-            foreach (var referencedAssembly in assembly.GetReferencedAssemblies())
-            {
-                yield return Assembly.Load(referencedAssembly);
-            }
-               
-        }
-
-        private object ExampleTranslate(object ex)
-        {
-            var id = (string) ex.GetPropertyWithReflection("Id");
-            return Find(id);
         }
 
         public IExampleNode Find(string id)

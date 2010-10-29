@@ -31,7 +31,7 @@ namespace Bickle.ReflectionWrapping
 
         public void Execute(ITestResultListener listener)
         {
-
+            _inner.InvokeWithReflection("Execute", ListenerWrapper.GetWrapperForTargetType(_inner.GetType(), listener, ContainingSpec));   
         }
 
         public string Name
