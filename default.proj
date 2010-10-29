@@ -13,6 +13,10 @@
      <ResharperBinPath>C:\Program Files\JetBrains\ReSharper\v5.1\Bin</ResharperBinPath>
    </PropertyGroup>
 
+   <PropertyGroup>
+     <ReSharperPluginRoot>C:\Users\$(USERNAME)\AppData\Local\JetBrains\ReSharper\v5.1</ReSharperPluginRoot>
+   </PropertyGroup>
+
    <Target Name="BuildAll"  DependsOnTargets="BuildCore;BuildReSharper">
      
    </Target>
@@ -57,5 +61,22 @@
        Properties="OutputPath=$(OutputPath)"
        Condition="Exists('$(JetBrainsLibPath)\JetBrains.Platform.ReSharper.Metadata.dll')"
     />
+   </Target>
+
+   <Target Name="InstallReSharper" DependsOnTargets="BuildReSharper">
+     <Error Condition="!(Exists('$(OutputPath)\Bickle.ReSharper.DLL'))" Label="No resharper binaries were built! Can't install."/>
+
+     <MakeDir Directories="$(ReSharperPluginRoot)\vs9.0\Plugins\Bickle" Condition="Exists('$(ReSharperPluginRoot)\vs9.0') And !Exists('$(ReSharperPluginRoot)\vs9.0\Plugins\Bickle')" />
+     <Copy SourceFiles="$(OutputPath)\Bickle.ReSharper.DLL" DestinationFolder="$(ReSharperPluginRoot)\vs9.0\Plugins\Bickle" Condition="Exists('$(ReSharperPluginRoot)\vs9.0')" />
+     <Copy SourceFiles="$(OutputPath)\Bickle.Framework.DLL" DestinationFolder="$(ReSharperPluginRoot)\vs9.0\Plugins\Bickle" Condition="Exists('$(ReSharperPluginRoot)\vs9.0')" />
+     
+     <MakeDir Directories="$(ReSharperPluginRoot)\vs10.0\Plugins\Bickle" Condition="Exists('$(ReSharperPluginRoot)\vs10.0') And !Exists('$(ReSharperPluginRoot)\vs10.0\Plugins\Bickle')" />
+     <Copy SourceFiles="$(OutputPath)\Bickle.ReSharper.DLL" DestinationFolder="$(ReSharperPluginRoot)\vs10.0\Plugins\Bickle" Condition="Exists('$(ReSharperPluginRoot)\vs10.0')" />
+     <Copy SourceFiles="$(OutputPath)\Bickle.Framework.DLL" DestinationFolder="$(ReSharperPluginRoot)\vs10.0\Plugins\Bickle" Condition="Exists('$(ReSharperPluginRoot)\vs10.0')" />
+      </Target>
+
+   <Target Name="UnInstallReSharper">
+     <RemoveDir Directories="$(ReSharperPluginRoot)\vs9.0\Plugins\Bickle" Condition="Exists('$(ReSharperPluginRoot)\vs9.0\Plugins\Bickle')" />
+     <RemoveDir Directories="$(ReSharperPluginRoot)\vs10.0\Plugins\Bickle" Condition="Exists('$(ReSharperPluginRoot)\vs10.0\Plugins\Bickle')" />
    </Target>
 </Project>
