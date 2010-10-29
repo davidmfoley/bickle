@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Bickle;
 
 namespace Bickle
 {
@@ -10,17 +11,30 @@ namespace Bickle
         public SpecWrapper(Object spec)
         {
             _inner = spec;
-        }
-
-        public IExampleContainer[] GetSpecs()
-        {
-            var containers = (object[])_inner.InvokeWithReflection("GetSpecs");
-            return containers.Select(WrapContainer).ToArray();
-        }
+        }        
 
         private IExampleContainer WrapContainer(object o)
         {
             return new ExampleContainerWrapper(o);
+        }
+
+        public string Name
+        {
+            get { return (string)_inner.InvokeWithReflection("Name"); }
+        }
+
+        public bool IsIgnored()
+        {
+            return (bool)_inner.InvokeWithReflection("IsIgnored");
+        }
+
+        public IExampleContainer[] ExampleContainers
+        {
+            get
+            {
+                var containers = (object[]) _inner.GetPropertyWithReflection("ExampleContainers");
+                return containers.Select(WrapContainer).ToArray();
+            }
         }
     }
 

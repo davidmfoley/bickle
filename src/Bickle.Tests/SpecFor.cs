@@ -12,7 +12,7 @@ namespace Bickle.Tests
         {
             var spec = new T();
 
-            ExampleContainers = spec.GetSpecs().Cast<ExampleContainer>().ToArray();
+            ExampleContainers = spec.ExampleContainers.Cast<ExampleContainer>().ToArray();
         }
     }
 }

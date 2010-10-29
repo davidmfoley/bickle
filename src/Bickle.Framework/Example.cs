@@ -58,7 +58,6 @@ namespace Bickle
             }
         }
 
-
         public override bool IsIgnored()
         {
             return Parent.IsIgnored();

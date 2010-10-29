@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Bickle
@@ -111,11 +112,7 @@ namespace Bickle
             return _describeStack.Count > 0;
         }
 
-        public IExampleContainer[] GetSpecs()
-        {
-            return _describes.ToArray();
-        }
-
+       
         public void Execute(ITestResultListener listener)
         {
             foreach (ExampleContainer describe in _describes)
@@ -128,6 +125,21 @@ namespace Bickle
         {
 
             return _idMap[id];
+        }
+
+        public string Name
+        {
+            get { return GetType().Name; }
+        }
+
+        public bool IsIgnored()
+        {
+            return !ExampleContainers.Any(x=>!x.IsIgnored());
+        }
+
+        public IExampleContainer[] ExampleContainers
+        {
+            get {  return _describes.ToArray(); }
         }
     }
 }

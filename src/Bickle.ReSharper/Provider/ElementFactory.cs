@@ -21,7 +21,7 @@ namespace Bickle.ReSharper
         {
             var specElement = new SpecElement(_provider, spec, _project);
             _consumer(specElement);
-            var exampleContainers = spec.GetSpecs();
+            var exampleContainers = spec.ExampleContainers;
             CreateContainerElements(exampleContainers, specElement);
         }
 

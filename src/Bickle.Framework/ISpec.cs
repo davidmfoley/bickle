@@ -1,7 +1,7 @@
 ﻿namespace Bickle
 {
-    public interface ISpec
+    public interface ISpec : IExampleNode
     {
-        IExampleContainer[] GetSpecs();
+        IExampleContainer[] ExampleContainers { get; }
     }
 }

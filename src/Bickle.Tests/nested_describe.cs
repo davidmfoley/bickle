@@ -65,7 +65,7 @@ namespace Bickle.Tests
 
         protected IExampleContainer[] ExampleContainers
         {
-            get { return Wrapper.GetSpecs(); }
+            get { return Wrapper.ExampleContainers; }
         }
 
         [Test]
@@ -84,11 +84,7 @@ namespace Bickle.Tests
             ExampleContainers[0].Name.ShouldBe("Foo");
         }
 
-        [Test]
-        public void Should_be_able_to_execute()
-        {
-            
-        }
+        
     }
 
 
