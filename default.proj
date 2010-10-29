@@ -36,6 +36,8 @@
      <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.ReSharper.UnitTestFramework.dll" DestinationFolder="$(JetBrainsLibPath)" />
      <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.Platform.ReSharper.UI.dll" DestinationFolder="$(JetBrainsLibPath)" />
      <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.ReSharper.VS.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     <Copy SourceFiles="$(ReSharperBinPath)\JetBrains.Platform.ReSharper.DocumentManager.dll" DestinationFolder="$(JetBrainsLibPath)" />
+     
    </Target>
 
    <Target Name="BuildReSharper" DependsOnTargets="CopyReSharperDlls;BuildCore">

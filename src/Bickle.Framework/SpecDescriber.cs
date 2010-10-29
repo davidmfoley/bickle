@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -80,9 +81,9 @@ namespace Bickle
 
         private static string ExtractOperator(BinaryExpression binary)
         {
-            string op = Regex.Match(binary.ToString(), " (==|!=|<=|>=|<|>) ").Groups[1].Value;
+            string op = Regex.Match(binary.ToString(), " (==|=|!=|<=|>=|<|>) ").Groups[1].Value;
 
-            if (op == "==")
+            if (op == "==" ||op =="=")
                 return "should equal";
             if (op == "!=")
                 return "should not equal";
@@ -102,7 +103,7 @@ namespace Bickle
         {
             if (exp is MemberExpression)
             {
-                return ((MemberExpression) exp).Member.Name;
+                return GetName((MemberExpression)exp);
             }
             if (exp is ConstantExpression)
             {
@@ -110,6 +111,17 @@ namespace Bickle
             }
 
             return exp.ToString();
+        }
+
+        private static string GetName(MemberExpression exp)
+        {
+            var split = exp.ToString().Split('.');
+
+            var pieces = split.Where(x=>!x.Contains("(")).Reverse()
+                .TakeWhile(x=>!x.Contains(")"));
+            
+            return string.Join(".", pieces.Reverse().ToArray());
+            
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Bickle.ReSharper
 
         public void ExploreFile(IFile psiFile, UnitTestElementLocationConsumer consumer, CheckForInterrupt interrupted)
         {
-         
+            
         }
 
         public void ExploreExternal(UnitTestElementConsumer consumer)

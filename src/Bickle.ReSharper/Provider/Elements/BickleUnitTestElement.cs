@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using JetBrains.Application;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.Caches;
+using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Psi.Util;
 using JetBrains.ReSharper.UnitTestFramework;
 
 namespace Bickle.ReSharper.Provider.Elements
@@ -24,13 +29,54 @@ namespace Bickle.ReSharper.Provider.Elements
 
         public override UnitTestElementDisposition GetDisposition()
         {
+            IDeclaredElement declaredElement = this.GetDeclaredElement();
+            if ((declaredElement == null) || !declaredElement.IsValid())
+            {
+                return UnitTestElementDisposition.InvalidDisposition;
+            }
+            var locations = new List<UnitTestElementLocation>();
+            foreach (IDeclaration declaration in declaredElement.GetDeclarations())
+            {
+                var  containingFile = declaration.GetContainingFile();
+                if (containingFile != null)
+                {
+                    locations.Add(new UnitTestElementLocation(containingFile.ProjectFile, declaration.GetNameDocumentRange().TextRange, declaration.GetDocumentRange().TextRange));
+                }
+            }
+            return new UnitTestElementDisposition(locations, this);
 
-            return new UnitTestElementDisposition(new UnitTestElementLocation[0], this);
         }
 
         public override IDeclaredElement GetDeclaredElement()
         {
+            ITypeElement declaredType = GetDeclaredType();
+            if (declaredType != null)
+            {
+                var ctor = declaredType.Constructors[0];
+                return ctor;
+            }
             return null;
+
+        }
+
+        private ITypeElement GetDeclaredType()
+        {
+            IProject module = GetProject();
+            if (module == null)
+            {
+                return null;
+            }
+            ISolution solution = module.GetSolution();
+            if (solution == null)
+            {
+                return null;
+            }
+            PsiManager instance = PsiManager.GetInstance(solution);
+            using (ReadLockCookie.Create())
+            {
+                return instance.GetDeclarationsCache(DeclarationsScopeFactory.ModuleScope(PsiModuleManager.GetInstance(solution).GetPrimaryPsiModule(module), true), true).GetTypeElementByCLRName(_spec.GetType().FullName);
+            }
+
         }
 
         public override IProject GetProject()

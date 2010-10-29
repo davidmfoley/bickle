@@ -29,5 +29,14 @@ namespace Bickle.Tests
             string description = SpecDescriber.DescribeSpec(() => foo != 5);
             description.ShouldBe("foo should not equal 5");
         }
+
+        [Test]
+        public void Can_describe_a_field_reference()
+        {
+            var Foo = new {Bar = 6};
+
+            string description = SpecDescriber.DescribeSpec(() => Foo.Bar == 42);
+            description.ShouldBe("Foo.Bar should equal 42");
+        }
     }
 }
