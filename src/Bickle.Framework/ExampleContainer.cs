@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Bickle
 {
-    public abstract class ExampleContainer : ExampleNode
+    public abstract class ExampleContainer : ExampleNode, IExampleContainer
     {        
         private readonly List<ExampleContainer> _describes = new List<ExampleContainer>();
         private readonly List<Example> _its = new List<Example>();
@@ -17,23 +17,23 @@ namespace Bickle
             Spec = spec;
         }
 
-        public Example[] Examples
+        public IExample[] Examples
         {
-            get { return _its.ToArray(); }
+            get { return _its.Cast<IExample>().ToArray(); }
         }
 
-        public ExampleContainer[] ExampleContainers
+        public IExampleContainer[] ExampleContainers
         {
-            get { return _describes.ToArray(); }
+            get { return _describes.Cast<IExampleContainer>().ToArray(); }
         }
 
-        public Spec Spec;
+       
    
         public abstract void Execute(ITestResultListener listener);
 
         public void AddIt(Example example)
         {
-            example.Id = this.Id + "/example" + _its.Count.ToString("000");
+            example.Id = Id + "/example" + _its.Count.ToString("000");
             _its.Add(example);
         }
 
@@ -57,5 +57,11 @@ namespace Bickle
 
             return (new[] {After}.Union(Parent.GetAfters())).Reverse();
         }
+    }
+
+    public interface IExample
+    {
+        void Action();
+        string Name { get; }
     }
 }

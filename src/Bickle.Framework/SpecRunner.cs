@@ -19,7 +19,7 @@ namespace Bickle
 
         private void ExecuteSpecs(Type type, ConsoleListener listener)
         {
-            var instance = (Spec) Activator.CreateInstance(type);
+            var instance = (Spec) Activator.CreateInstance(type); 
 
             instance.Execute(listener);
 
@@ -34,4 +34,6 @@ namespace Bickle
             return assembly.GetTypes().Where(t => t.IsSubclassOf(typeof (Spec)));
         }
     }
+
+    
 }

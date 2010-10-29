@@ -25,17 +25,17 @@ namespace Bickle.ReSharper
             CreateContainerElements(exampleContainers, specElement);
         }
 
-        private void CreateContainerElements(ExampleContainer[] exampleContainers, UnitTestElement parent)
+        private void CreateContainerElements(IExampleContainer[] exampleContainers, UnitTestElement parent)
         {
             foreach (var exampleContainer in exampleContainers)
             {
-                var element = new ExampleContainerElement(_provider, _project, parent, exampleContainer);
+                var element = new ExampleContainerElement(_provider, _project, parent, (ExampleContainer)exampleContainer);
                 _consumer(element);
                 
                 CreateContainerElements(exampleContainer.ExampleContainers, element);
 
                 foreach (var example in exampleContainer.Examples)
-                    _consumer(new ExampleElement(_provider, element, _project, example));
+                    _consumer(new ExampleElement(_provider, element, _project, (Example)example));
 
             }
         }

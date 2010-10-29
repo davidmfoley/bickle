@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Runtime.Serialization;
 
 namespace Bickle
 {
-    public class Spec 
+    public class Spec : ISpec
     {
 
-        private readonly Stack<ExampleContainer> _describeStack = new Stack<ExampleContainer>();
-        private readonly List<ExampleContainer> _describes = new List<ExampleContainer>();
+        private readonly Stack<IExampleContainer> _describeStack = new Stack<IExampleContainer>();
+        private readonly List<IExampleContainer> _describes = new List<IExampleContainer>();
         private Dictionary<string, object> _idMap = new Dictionary<string, object>();
 
         public static void Pending()
@@ -82,7 +81,7 @@ namespace Bickle
 
         private ExampleContainer CurrentDescribe()
         {
-            return _describeStack.Count > 0 ? _describeStack.Peek() : null;
+            return (ExampleContainer)(_describeStack.Count > 0 ? _describeStack.Peek() : null);
         }
 
         private void RunDescribe(Action spec, ExampleContainer exampleContainer)
@@ -112,7 +111,7 @@ namespace Bickle
             return _describeStack.Count > 0;
         }
 
-        public ExampleContainer[] GetSpecs()
+        public IExampleContainer[] GetSpecs()
         {
             return _describes.ToArray();
         }
@@ -132,32 +131,10 @@ namespace Bickle
         }
     }
 
-    [Serializable]
-    public class PendingException : Exception
+    public interface IExampleContainer
     {
-        //
-        // For guidelines regarding the creation of new exception types, see
-        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpgenref/html/cpconerrorraisinghandlingguidelines.asp
-        // and
-        //    http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dncscol/html/csharp07192001.asp
-        //
-
-        public PendingException()
-        {
-        }
-
-        public PendingException(string message) : base(message)
-        {
-        }
-
-        public PendingException(string message, Exception inner) : base(message, inner)
-        {
-        }
-
-        protected PendingException(
-            SerializationInfo info,
-            StreamingContext context) : base(info, context)
-        {
-        }
+        IExampleContainer[] ExampleContainers { get;  }
+        IExample[] Examples { get; }
+        string Name { get;  }
     }
 }

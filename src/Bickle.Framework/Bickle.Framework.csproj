@@ -45,13 +45,16 @@
     <Compile Include="ConsoleListener.cs" />
     <Compile Include="ExampleNode.cs" />
     <Compile Include="InactiveExampleContainer.cs" />
+    <Compile Include="ISpec.cs" />
     <Compile Include="ITestResultListener.cs" />
+    <Compile Include="PendingException.cs" />
     <Compile Include="Spec.cs" />
     <Compile Include="ExampleContainer.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecDescriber.cs" />
     <Compile Include="SpecRunner.cs" />
+    <Compile Include="SpecWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

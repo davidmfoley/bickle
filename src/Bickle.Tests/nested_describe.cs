@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using NUnit.Framework.SyntaxHelpers;
 
@@ -39,6 +41,52 @@ namespace Bickle.Tests
             ExampleContainers[0].Name.ShouldBe("Foo");
         }
     }
+
+    [TestFixture]
+    public class ReflectionWrapping_to_handle_version_conflicts
+    {
+        private SpecWrapper Wrapper;
+
+        [SetUp]
+        public void SetUpContext()
+        {
+            var spec = new NestedDescribe();
+
+            Wrapper = new SpecWrapper(spec);
+        }
+       
+
+        [Test]
+        public void Should_have_nested_describe()
+        {
+            ExampleContainers[0].ExampleContainers.Length.ShouldBe(1);
+            ExampleContainers[0].ExampleContainers[0].Name.ShouldBe("Bar");
+        }
+
+        protected ExampleContainer[] ExampleContainers
+        {
+            get { return Wrapper.GetSpecs().Cast<ExampleContainer>().ToArray(); }
+        }
+
+        [Test]
+        public void Should_have_nested_it()
+        {
+            NestedDescribe.ItWasCalled = false;
+            ExampleContainers[0].ExampleContainers[0].Examples.Length.ShouldBe(1);
+            ExampleContainers[0].ExampleContainers[0].Examples[0].Action();
+            NestedDescribe.ItWasCalled.ShouldBe(true);
+        }
+
+        [Test]
+        public void Should_have_one_describe()
+        {
+            ExampleContainers.Length.ShouldBe(1);
+            ExampleContainers[0].Name.ShouldBe("Foo");
+        }
+    }
+
+    
+
 
     public class NestedDescribe : Spec
     {

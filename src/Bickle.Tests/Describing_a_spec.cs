@@ -2,6 +2,8 @@
 
 namespace Bickle.Tests
 {
+    
+
     [TestFixture]
     public class Describing_a_spec
     {

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Bickle
 {
-    public class Example : ExampleNode
+    public class Example : ExampleNode, IExample
     {
         private readonly Action _action;
 
