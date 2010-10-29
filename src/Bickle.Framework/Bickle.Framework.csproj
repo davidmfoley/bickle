@@ -44,6 +44,9 @@
     <Compile Include="ColorConsoleListener.cs" />
     <Compile Include="ConsoleListener.cs" />
     <Compile Include="ExampleNode.cs" />
+    <Compile Include="IExample.cs" />
+    <Compile Include="IExampleContainer.cs" />
+    <Compile Include="IExampleNode.cs" />
     <Compile Include="InactiveExampleContainer.cs" />
     <Compile Include="ISpec.cs" />
     <Compile Include="ITestResultListener.cs" />

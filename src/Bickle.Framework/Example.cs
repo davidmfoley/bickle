@@ -18,10 +18,7 @@ namespace Bickle
             _action = BuildAction(spec);
         }
 
-        public Spec Spec;
-
-        
-
+        public Spec Spec;       
 
         private static Action BuildAction(Expression<Func<bool>> spec)
         {
@@ -61,6 +58,10 @@ namespace Bickle
             }
         }
 
-        
+
+        public override bool IsIgnored()
+        {
+            return Parent.IsIgnored();
+        }
     }
 }

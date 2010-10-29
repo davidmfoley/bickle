@@ -63,9 +63,9 @@ namespace Bickle.Tests
             ExampleContainers[0].ExampleContainers[0].Name.ShouldBe("Bar");
         }
 
-        protected ExampleContainer[] ExampleContainers
+        protected IExampleContainer[] ExampleContainers
         {
-            get { return Wrapper.GetSpecs().Cast<ExampleContainer>().ToArray(); }
+            get { return Wrapper.GetSpecs(); }
         }
 
         [Test]
@@ -83,9 +83,13 @@ namespace Bickle.Tests
             ExampleContainers.Length.ShouldBe(1);
             ExampleContainers[0].Name.ShouldBe("Foo");
         }
-    }
 
-    
+        [Test]
+        public void Should_be_able_to_execute()
+        {
+            
+        }
+    }
 
 
     public class NestedDescribe : Spec

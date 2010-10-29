@@ -30,5 +30,13 @@ namespace Bickle
                 describe.Execute(listener);
             }
         }
+
+        public override bool IsIgnored()
+        {
+            if (Parent == null)
+                return false;
+
+            return Parent.IsIgnored();
+        }
     }
 }

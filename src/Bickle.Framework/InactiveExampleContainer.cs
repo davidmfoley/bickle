@@ -1,4 +1,6 @@
-﻿namespace Bickle
+﻿using System;
+
+namespace Bickle
 {
     public class InactiveExampleContainer : ExampleContainer
     {
@@ -22,6 +24,11 @@
             {
                 listener.Ignored(example);
             }
+        }
+
+        public override bool IsIgnored()
+        {
+            return true;
         }
     }
 }

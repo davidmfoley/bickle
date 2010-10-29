@@ -3,10 +3,12 @@ using System.Linq.Expressions;
 
 namespace Bickle
 {
-    public class ExampleNode
+    public abstract class ExampleNode : IExampleNode
     {
         public ExampleContainer Parent { get; set; }
         public string Name { get; set; }
+        public abstract bool IsIgnored();
+
         public Spec Spec { get; set; }
 
         protected ExampleNode(ExampleContainer parent, string name, Spec spec)
@@ -22,19 +24,6 @@ namespace Bickle
         }
 
         public string Id { get; set; }
-
-        public bool IsIgnored()
-        {
-            var parent = this;
-            while (parent != null)
-            {
-                if (parent is InactiveExampleContainer)
-                    return true;
-
-                parent = parent.Parent;
-            }
-
-            return false;
-        }
+        
     }
 }

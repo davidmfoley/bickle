@@ -5,14 +5,15 @@ using System.Linq;
 namespace Bickle
 {
     public abstract class ExampleContainer : ExampleNode, IExampleContainer
-    {        
+    {
         private readonly List<ExampleContainer> _describes = new List<ExampleContainer>();
         private readonly List<Example> _its = new List<Example>();
 
         public Action After = () => { };
         public Action Before = () => { };
 
-        protected ExampleContainer(string name, ExampleContainer parent, Spec spec) : base(parent, name, spec)
+        protected ExampleContainer(string name, ExampleContainer parent, Spec spec)
+            : base(parent, name, spec)
         {
             Spec = spec;
         }
@@ -27,8 +28,8 @@ namespace Bickle
             get { return _describes.Cast<IExampleContainer>().ToArray(); }
         }
 
-       
-   
+
+
         public abstract void Execute(ITestResultListener listener);
 
         public void AddIt(Example example)
@@ -45,23 +46,17 @@ namespace Bickle
         protected IEnumerable<Action> GetBefores()
         {
             if (Parent == null)
-                return new[] {Before};
+                return new[] { Before };
 
-            return new[] {Before}.Union(Parent.GetBefores());
+            return new[] { Before }.Union(Parent.GetBefores());
         }
 
         protected IEnumerable<Action> GetAfters()
         {
             if (Parent == null)
-                return new[] {After};
+                return new[] { After };
 
-            return (new[] {After}.Union(Parent.GetAfters())).Reverse();
-        }
-    }
-
-    public interface IExample
-    {
-        void Action();
-        string Name { get; }
+            return (new[] { After }.Union(Parent.GetAfters())).Reverse();
+        }        
     }
 }

@@ -130,11 +130,4 @@ namespace Bickle
             return _idMap[id];
         }
     }
-
-    public interface IExampleContainer
-    {
-        IExampleContainer[] ExampleContainers { get;  }
-        IExample[] Examples { get; }
-        string Name { get;  }
-    }
 }

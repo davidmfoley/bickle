@@ -62,6 +62,11 @@ namespace Bickle
         {
             get { return (string) _inner.GetPropertyWithReflection("Name"); }
         }
+
+        public bool IsIgnored()
+        {
+            return (bool) _inner.InvokeWithReflection("IsIgnored");
+        }
     }
 
     public class ExampleWrapper : IExample
@@ -81,6 +86,11 @@ namespace Bickle
         public string Name
         {
             get { return (string)_inner.GetPropertyWithReflection("Name"); }
+        }
+
+        public bool IsIgnored()
+        {
+            return (bool)_inner.InvokeWithReflection("IsIgnored");
         }
     }
 
