@@ -38,5 +38,22 @@ namespace Bickle.Tests
             string description = SpecDescriber.DescribeSpec(() => Foo.Bar == 42);
             description.ShouldBe("Foo.Bar should equal 42");
         }
+
+        [Test]
+        public void Can_describe_a_function_invocation()
+        {
+            var foo = new ExampleFoo();
+
+            string description = SpecDescriber.DescribeSpec(() => foo.Bar() == 42);
+            description.ShouldBe("foo.Bar() should equal 42");
+        }
+
+        class ExampleFoo
+        {
+            public int Bar()
+            {
+                return 42;
+            }
+        }
     }
 }

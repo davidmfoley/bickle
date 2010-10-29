@@ -101,9 +101,9 @@ namespace Bickle
 
         private static string DescribeExpression(Expression exp)
         {
-            if (exp is MemberExpression)
+            if (exp is MemberExpression || exp is MethodCallExpression)
             {
-                return GetName((MemberExpression)exp);
+                return GetName(exp);
             }
             if (exp is ConstantExpression)
             {
@@ -113,14 +113,18 @@ namespace Bickle
             return exp.ToString();
         }
 
-        private static string GetName(MemberExpression exp)
+        private static string GetName(Expression exp)
         {
             var split = exp.ToString().Split('.');
 
-            var pieces = split.Where(x=>!x.Contains("(")).Reverse()
+            var pieces =
+                split.Reverse().Skip(1)
+                .Where(x=>!x.Contains("("))
                 .TakeWhile(x=>!x.Contains(")"));
             
-            return string.Join(".", pieces.Reverse().ToArray());
+            var asArray = (new[] {split.Last()}.Union(pieces)).Reverse().ToArray();
+
+            return string.Join(".", asArray);
             
         }
     }
