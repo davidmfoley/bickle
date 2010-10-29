@@ -1,6 +1,7 @@
 ﻿using System.Linq;
+using Bickle.Utility;
 
-namespace Bickle
+namespace Bickle.ReflectionWrapping
 {
     public class ExampleContainerWrapper : IExampleContainer
     {

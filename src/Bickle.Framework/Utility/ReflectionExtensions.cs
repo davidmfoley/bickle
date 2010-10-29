@@ -1,4 +1,4 @@
-﻿namespace Bickle
+﻿namespace Bickle.Utility
 {
     public static class ReflectionExtensions
     {

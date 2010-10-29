@@ -1,4 +1,6 @@
-﻿namespace Bickle
+﻿using Bickle.Utility;
+
+namespace Bickle.ReflectionWrapping
 {
     public class ExampleTranslator
     {

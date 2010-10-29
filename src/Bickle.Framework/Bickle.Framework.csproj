@@ -41,28 +41,28 @@
   <ItemGroup>
     <Compile Include="ActiveExampleContainer.cs" />
     <Compile Include="AssertionException.cs" />
-    <Compile Include="ColorConsoleListener.cs" />
-    <Compile Include="ConsoleListener.cs" />
-    <Compile Include="ExampleContainerWrapper.cs" />
+    <Compile Include="Listeners\ColorConsoleListener.cs" />
+    <Compile Include="Listeners\ConsoleListener.cs" />
+    <Compile Include="ReflectionWrapping\ExampleContainerWrapper.cs" />
     <Compile Include="ExampleNode.cs" />
-    <Compile Include="ExampleTranslator.cs" />
-    <Compile Include="ExampleWrapper.cs" />
+    <Compile Include="ReflectionWrapping\ExampleTranslator.cs" />
+    <Compile Include="ReflectionWrapping\ExampleWrapper.cs" />
     <Compile Include="IExample.cs" />
     <Compile Include="IExampleContainer.cs" />
     <Compile Include="IExampleNode.cs" />
     <Compile Include="InactiveExampleContainer.cs" />
     <Compile Include="ISpec.cs" />
     <Compile Include="ITestResultListener.cs" />
-    <Compile Include="ListenerWrapper.cs" />
+    <Compile Include="ReflectionWrapping\ListenerWrapper.cs" />
     <Compile Include="PendingException.cs" />
-    <Compile Include="ReflectionExtensions.cs" />
+    <Compile Include="Utility\ReflectionExtensions.cs" />
     <Compile Include="Spec.cs" />
     <Compile Include="ExampleContainer.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecDescriber.cs" />
     <Compile Include="SpecRunner.cs" />
-    <Compile Include="SpecWrapper.cs" />
+    <Compile Include="ReflectionWrapping\SpecWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

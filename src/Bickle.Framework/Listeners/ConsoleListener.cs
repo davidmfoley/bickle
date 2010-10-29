@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Bickle
+namespace Bickle.Listeners
 {
     public abstract class ConsoleListener : ITestResultListener
     {

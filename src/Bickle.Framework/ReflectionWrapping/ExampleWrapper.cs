@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Bickle.Utility;
 
-namespace Bickle
+namespace Bickle.ReflectionWrapping
 {
     public class ExampleWrapper : IExample
     {

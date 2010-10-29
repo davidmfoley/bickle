@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Bickle
+namespace Bickle.Listeners
 {
     public class ColorConsoleListener : ConsoleListener
     {

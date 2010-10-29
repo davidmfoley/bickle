@@ -1,6 +1,7 @@
 ﻿using System;
+using Bickle.Utility;
 
-namespace Bickle
+namespace Bickle.ReflectionWrapping
 {
     public class ListenerWrapper : ITestResultListener
     {

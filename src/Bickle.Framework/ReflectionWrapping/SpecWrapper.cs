@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Bickle;
+using Bickle.Utility;
 
-namespace Bickle
+namespace Bickle.ReflectionWrapping
 {
     public class SpecWrapper : ISpec
     {
